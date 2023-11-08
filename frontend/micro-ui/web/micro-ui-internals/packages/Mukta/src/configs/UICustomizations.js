@@ -215,7 +215,7 @@ export const UICustomizations = {
       //like if a cell is link then we return link
       //first we can identify which column it belongs to then we can return relevant result
       switch (key) {
-        case "MASTERS_WAGESEEKER_ID":
+        case "MASTERS_WAGESEEKER_ID2":
           return (
             <span className="link">
               <Link to={`/${window.contextPath}/employee/masters/view-wageseeker?tenantId=${row?.tenantId}&individualId=${value}`}>

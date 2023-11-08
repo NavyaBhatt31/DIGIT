@@ -12,19 +12,21 @@ import { initUtilitiesComponents } from  "@egovernments/digit-ui-module-utilitie
 
 window.contextPath = window?.globalConfigs?.getConfig("CONTEXT_PATH");
 
-const enabledModules = ["DSS", "NDSS",  "Utilities",
+const enabledModules = ["DSS", "NDSS",  "Utilities","project","Project",
 "HRMS", "Engagement"
 ];
 window.Digit.ComponentRegistryService.setupRegistry({
   PaymentModule,
   ...paymentConfigs,
   PaymentLinks,
+
 });
 
 initDSSComponents();
 initHRMSComponents();
 initEngagementComponents();
 initUtilitiesComponents();
+initprojectComponents();
 
 const moduleReducers = (initData) => ({
   initData,

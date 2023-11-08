@@ -7,7 +7,7 @@ import { UICustomizations } from "./configs/UICustomizations";
 import HRMSCard from "./components/HRMSCard";
 import MuktaCard from "./components/MuktaCard";
 import SampleComponent from "./components/SampleComponent";
-
+//import ProjectComponent from "./components/ProjectComponent";
 
 const MuktaModule = ({ stateCode, userType, tenants }) => {
   stateCode=Digit.ULBService.getStateId();
@@ -35,6 +35,7 @@ const componentsToRegister = {
   HRMSCard ,// Overridden the HRMS card as per MUKTA
   
   SampleComponent
+  
 };
 
 const overrideHooks = () => {

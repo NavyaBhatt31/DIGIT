@@ -80,7 +80,13 @@ const Urls = {
     billAmendmentSearch: "/billing-service/amendment/_search",
     getBulkPdfRecordsDetails: "/pdf-service/v1/_getBulkPdfRecordsDetails",
   },
+CreateProject: {
+  create_proj : 'https://unified-dev.digit.org/project/v1/_create'
 
+},
+searchproj:{
+  search: "https://unified-dev.digit.org/user/_search"
+},
   pt: {
     fectch_property: "/property-services/property/_search",
     fetch_payment_details: "/billing-service/bill/v2/_fetchbill",

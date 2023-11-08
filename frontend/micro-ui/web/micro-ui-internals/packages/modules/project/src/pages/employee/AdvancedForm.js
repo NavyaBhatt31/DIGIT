@@ -24,24 +24,24 @@ export const newConfig = [
         disable: false,
         populators: { name: "name", error: "Required", validation: { pattern: /^[A-Za-z]+$/i } },
       },
-      // {
-      //   isMandatory: true,
-      //   type: "dropdown",
-      //   key: "genders",
-      //   label: "Gender",
-      //   disable: false,
-      //   populators: {
-      //     name: "gender",
-      //     optionsKey: "name",
-      //     error: "sample required message",
-      //     required: true,
-      //     mdmsConfig: {
-      //       masterName: "GenderType",
-      //       moduleName: "common-masters",
-      //       localePrefix: "COMMON_GENDER",
-      //     },
-      //   },
-      // },
+      {
+        isMandatory: true,
+        type: "dropdown",
+        key: "genders",
+        label: "Gender",
+        disable: false,
+        populators: {
+          name: "gender",
+          optionsKey: "name",
+          error: "sample required message",
+          required: true,
+          mdmsConfig: {
+            masterName: "GenderType",
+            moduleName: "common-masters",
+            localePrefix: "COMMON_GENDER",
+          },
+        },
+      },
       {
         label: "Age",
         isMandatory: true,
@@ -231,12 +231,12 @@ export const newConfig = [
           ],
         },
       },
-      {
-        type: "component",
-        component: "SampleComponent",
-        withoutLabel: true,
-        key: "comments",
-      },
+      // {
+      //   type: "component",
+      //   component: "SampleComponent",
+      //   withoutLabel: true,
+      //   key: "comments",
+      // },
     ],
   },
 ];

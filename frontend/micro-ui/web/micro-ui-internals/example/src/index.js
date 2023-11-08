@@ -9,9 +9,13 @@ import { initEngagementComponents } from "@egovernments/digit-ui-module-engageme
 import { initHRMSComponents } from "@egovernments/digit-ui-module-hrms";
 import { initUtilitiesComponents } from "@egovernments/digit-ui-module-utilities";
 import { initSampleComponents } from "@egovernments/digit-ui-module-sample";
+// import { initSampleComponents2 } from "../../packages/modules/project/dist";
+// import { initProjectComponents } from "@egovernments/digit-ui-module-project";
+import { initprojectComponents } from "@egovernments/digit-ui-module-project";
+
 import {initWorkbenchComponents} from "@egovernments/digit-ui-module-workbench";
 
-import { initMuktaCustomisations } from "@egovernments/digit-ui-customisation-mukta";
+// import { initMuktaCustomisations } from "@egovernments/digit-ui-customisation-mukta";
 
 import "@egovernments/digit-ui-custom-css/example/index.css";
 
@@ -28,7 +32,10 @@ const enabledModules = [
   // "FSM"
   "Mukta",
   "Sample",
-  // "Workbench"
+  "project",
+  "Project"
+
+    // "Workbench"
 
 ];
 
@@ -72,6 +79,10 @@ const initDigitUI = () => {
   initEngagementComponents();
   initUtilitiesComponents();
   initSampleComponents();
+  initprojectComponents();
+  // initSampleComponents2();
+  // initSampleComponents2();
+  //initProjectComponents();
   initWorkbenchComponents();
 
   const moduleReducers = (initData) => initData;
@@ -83,7 +94,7 @@ const initDigitUI = () => {
 
   const stateCode = window?.globalConfigs?.getConfig("STATE_LEVEL_TENANT_ID") || "pg";
   initTokens(stateCode);
-  initMuktaCustomisations();
+  // initMuktaCustomisations();
   ReactDOM.render(
     <DigitUI stateCode={stateCode} enabledModules={enabledModules} moduleReducers={moduleReducers} defaultLanding="employee" />,
     document.getElementById("root")
