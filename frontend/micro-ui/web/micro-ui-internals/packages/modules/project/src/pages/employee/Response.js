@@ -25,7 +25,7 @@ const Response = () => {
       <Banner
         successful={isResponseSuccess}
         message={t(state?.message || "SUCCESS")}
-        info={`${state?.showID ? t("CONTRACTS_WO_ID") : ""}`}
+        info={`${state?.showID ? t("REVISED_WO_NUMBER") : ""}`}
         whichSvg={`${isResponseSuccess ? "tick" : null}`}
       />
       <div style={{ display: "flex" }}>

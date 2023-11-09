@@ -17,7 +17,7 @@ export const newConfig = [
         description: "Please enter Sanction Date",
         type: "date",
         disable: false,
-        populators: { name: "sanction_date", error: "Required", validation: { required: true } },
+        populators: { name: "dateOfProposal", error: "Required", validation: { required: true } },
       },
       {
         inline: true,
@@ -33,7 +33,7 @@ export const newConfig = [
         isMandatory: true,
         type: "textarea",
         disable: false,
-        populators: { name: "project_description", error: "Required", validation: { pattern: /^[A-Za-z]+$/i } },
+        populators: { name: "description", error: "Required", validation: { pattern: /^[A-Za-z]+$/i } },
       },
     
   
@@ -44,24 +44,61 @@ export const newConfig = [
         key: "additionalDetails",
         type: "text",
         disable: false,
-        populators: { name: "file_refrence_number", error: "sample error message", validation: { pattern: /^[A-Za-z]+$/i } },
+        populators: { name: "referenceID", error: "sample error message", validation: { pattern: /^[A-Za-z]+$/i } },
       },
       {
-        label: "Project Type",
+        
+          label: "Project Type",
+          type: "dropdown",
+          isMandatory: false,
+          disable: false,
+          populators: {
+            name: "projectType",
+            // type: "wards",
+            options: [
+              { value: "Mini Park", label: "Mini Park" },
+              { value: "Child Play Station", label: "Child Play Station" },
+              { value: "Open Air Gym", label: "Open Air Gym" },
+              { value: "Water Body", label: "Water Body" },
+              { value: "Walking Track", label: "Walking Track" },
+              { value: "Playground", label: "Playground" },
+              { value: "Loo", label: "Loo" },
+              { value: "Vending Zone", label: "Vending Zone" },
+            ],
+            defaultText: "COMMON_SELECT_WARD",
+            selectedText: "COMMON_SELECTED",
+            allowMultiSelect: false,
+          },
+        },
+        {
+          inline: true,
+          label: "Estimated Cost (₹)",
+          isMandatory: true,
+          type: "text",
+          disable: false,
+          populators: { name: "estimatedCostInRs", error: "Required", validation: { pattern: /^[A-Za-z]+$/i } },
+        },
+        {
+          inline: true,
+          label: "Locality",
+          isMandatory: true,
+          type: "text",
+          disable: false,
+          populators: { name: "address", error: "Required", validation: { pattern: /^[A-Za-z]+$/i } },
+        },
+      {
+        label: "Target Demography",
         type: "locationdropdown",
         isMandatory: false,
         disable: false,
         populators: {
-          name: "project",
-          type: "ward",
-          optionsKey: "i18nKey",
-          defaultText: "COMMON_SELECT_WARD",
-          selectedText: "COMMON_SELECTED",
+          name: "projadditionalDetails",
           allowMultiSelect: false,
         },
       },
+
       {
-        label: "Target Demography",
+        label: "Ward",
         type: "locationdropdown",
         isMandatory: false,
         disable: false,
@@ -81,21 +118,40 @@ export const newConfig = [
  const Create = () => {
   const tenantId = Digit.ULBService.getCurrentTenantId();
   const { t } = useTranslation();
-  const history = useHistory();
+ 
 
-  const requestCriteria1 = {
+  const reqCriteriaCreate = {
       url: `/project/v1/_create`,
-      params: { tenantId },
-      body: {},
+      params: { },
+      body: {
+        
+        "tenantId": tenantId,
+        "name": " ",
+        "projectType": "",
+        "projectSubType": "",
+        "department": "",
+        "description": "",
+        "referenceID": "",
+        "documents": [],
+        "address":{ },
+        "isTaskEnabled": false,
+        "parent": "",
+        "additionalDetails": {
+            "estimatedCostInRs": "",
+            "dateOfProposal": "",
+            }, 
+      },
       config: {
         enabled: true,
-        select: (data) => data?.Employees?.map((e) => ({ code: e?.code, name: e?.user?.name })),
+        // select: (data) => data?.Employees?.map((e) => ({ code: e?.code, name: e?.user?.name })),
       },
 
     };
 
-
-  const onSubmit = (data) => {
+   const mutation = Digit.Hooks.useCustomAPIMutationHook(reqCriteriaCreate);
+   const history = useHistory();
+ 
+    const onSubmit = (data) => {
     console.log(data, "data");
     const onError = (resp) => {
       history.push(`/${window.contextPath}/employee/project/response?isSuccess=${false}`, { message: "TE_CREATION_FAILED" });
@@ -107,6 +163,25 @@ export const newConfig = [
         label: "REVISED_WO_NUMBER",
       });
     };
+    mutation.mutate(
+      {
+        params: {},
+        body: {
+          project: {
+            ...data,
+          },
+          workflow: {
+            action: "CREATE",
+
+            comment: null,
+          },
+        },
+      },
+      {
+        onError,
+        onSuccess,
+      }
+    );
   }
     const configs = newConfig ? newConfig : newConfig;
 
