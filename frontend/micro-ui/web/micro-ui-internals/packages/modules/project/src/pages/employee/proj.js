@@ -28,6 +28,25 @@ export const newConfig = [
         populators: { name: "name", error: "Required", validation: { pattern: /^[A-Za-z]+$/i } },
       },
       {
+        key:"d",
+        inline: true,
+        label: "id",
+        isMandatory: true,
+        type: "number",
+        disable: false,
+        populators: { name: "id", error: "Required", validation: { pattern: /^[0-9]*$/i } },
+      },
+      {
+        key:"parentId",
+        inline: true,
+        label: "parentId",
+        isMandatory: true,
+        type: "number",
+        disable: false,
+        populators: { name: "parentId", error: "Required", validation: { pattern: /^[0-9]*$/i } },
+      },
+      {
+        key:"description",
         inline: true,
         label: "Project Description",
         isMandatory: true,
@@ -40,12 +59,12 @@ export const newConfig = [
       {
         label: "File Reference Number",
         isMandatory: true,
-        description: "Additional Details if any",
-        key: "additionalDetails",
-        type: "text",
+        key: "referenceID",
+        type: "number",
         disable: false,
-        populators: { name: "referenceID", error: "sample error message", validation: { pattern: /^[A-Za-z]+$/i } },
+        populators: { name: "referenceID", error: "sample error message", validation: { pattern: /^[0-9]*$/i },
       },
+    },
       // {
         
       //     label: "Project Type",
@@ -70,41 +89,44 @@ export const newConfig = [
       //       // selectedText: "COMMON_SELECTED",
       //     },
       //   },
-      // {
-      //   isMandatory:true,
-      //   key:"projectTypes",
-      //   disable:false,
-      //   label:"Project Type",
-      //   type:"radioordropdown",
-      //   populators:{
-      //     name:"projectTypes",
-      //     optionsKey:"name",
-      //     required:true,
-      //     // mdmsConfig:{
-      //     //   masterName:"ProjectType",
-      //     //   moduleName:"works",
-      //     //   localePrefix:"COMMON_MASTERS",
-      //     // }
-      //     options: [
-      //       { code: "Mini Park", name: "Mini Park" },]
-      //       // { code: "Child Play Station", name: "Child Play Station" },
-      //       // { code: "Open Air Gym", name: "Open Air Gym" },
-      //       // { code: "Water Body", name: "Water Body" },
-      //       // { code: "Walking Track", name: "Walking Track" },
-      //       // { code: "Playground", name: "Playground" },
-      //       // { code: "Loo", name: "Loo" },
-      //       // { code: "Vending Zone", name: "Vending Zone" },]
-      //   }
-      // },
+      {
+        isMandatory:true,
+        key:"projectTypes",
+        disable:false,
+        label:"Project Type",
+        type:"radioordropdown",
+        populators:{
+          name:"projectTypes",
+          optionsKey:"name",
+          required:true,
+          // mdmsConfig:{
+          //   masterName:"ProjectType",
+          //   moduleName:"works",
+          //   localePrefix:"COMMON_MASTERS",
+          // }
+          options: [
+            { code: "Mini Park", name: "Mini Park" },
+            { code: "Child Play Station", name: "Child Play Station" },
+            { code: "Open Air Gym", name: "Open Air Gym" },
+            { code: "Water Body", name: "Water Body" },
+            { code: "Walking Track", name: "Walking Track" },
+            { code: "Playground", name: "Playground" },
+            { code: "Loo", name: "Loo" },
+            { code: "Vending Zone", name: "Vending Zone" }]
+        },
+      },
+      
         {
+          key:"estimatedCostInRs",
           inline: true,
           label: "Estimated Cost (₹)",
           isMandatory: true,
-          type: "text",
+          type: "number",
           disable: false,
-          populators: { name: "estimatedCostInRs", error: "Required", validation: { pattern: /^[A-Za-z]+$/i } },
+          populators: { name: "estimatedCostInRs", error: "Required", validation: { pattern: /^[0-9]*$/i } },
         },
         {
+          key:"address",
           inline: true,
           label: "Locality",
           isMandatory: true,
@@ -113,12 +135,22 @@ export const newConfig = [
           populators: { name: "address", error: "Required", validation: { pattern: /^[A-Za-z]+$/i } },
         },
       {
+        key:"targetDemography",
         label: "Target Demography",
-        type: "locationdropdown",
+        type: "radioordropdown",
         isMandatory: false,
         disable: false,
         populators: {
-          name: "projadditionalDetails",
+          name: "targetDemography",
+          optionsKey: "name",
+          required: true,
+          options: [
+            { code: "Slum", name: "Slum" },
+            { code: "Area inhabited by SC", name: "Area inhabited by SC" },
+            { code: "Area inhabited by ST", name: "Area inhabited by ST" },
+            { code: "Area inhabited by Minorities", name: "Area inhabited by Minorities" },
+
+          ]
           // allowMultiSelect: false,
         },
       },
@@ -129,7 +161,7 @@ export const newConfig = [
         isMandatory: false,
         disable: false,
         populators: {
-          name: "project",
+          name: "ward",
           type: "ward",
           optionsKey: "i18nKey",
           defaultText: "COMMON_SELECT_WARD",
@@ -150,22 +182,9 @@ export const newConfig = [
       url: `/project/v1/_create`,
       params: { },
       body: {
+  
+          
         
-        "tenantId": tenantId,
-        "name": " ",
-        "projectType": "",
-        "projectSubType": "",
-        "department": "",
-        "description": "",
-        "referenceID": "",
-        "documents": [],
-        "address":{ },
-        "isTaskEnabled": false,
-        "parent": "",
-        "additionalDetails": {
-            "estimatedCostInRs": "",
-            "dateOfProposal": "",
-            }, 
       },
       config: {
         enabled: true,
@@ -179,35 +198,54 @@ export const newConfig = [
  
     const onSubmit = (data) => {
     console.log(data, "data");
-    const onError = (resp) => {
-      history.push(`/${window.contextPath}/employee/project/response?isSuccess=${false}`, { message: "TE_CREATION_FAILED" });
-    };
     const onSuccess = (resp) => {
-      history.push(`/${window.contextPath}/employee/project/response?appNo=${resp.project[0]}&isSuccess=${true}`, {
-        message: isEdit ? "TE_EDIT_SUCCESS" : "TE_CREATION_SUCCESS",
-        showID: true,
-        label: "REVISED_WO_NUMBER",
-      });
+      if (resp) {
+        console.log("successful", resp);
+        history.push(`/${window.contextPath}/employee/project/response?&isSuccess=true`, { message: "TE_CREATION_SUCCESS" });
+        console.log(history, "history")
+      }
     };
+    
+    const onError = (resp) => {
+      if (resp && resp.ResponseInfo && resp.ResponseInfo.length>0) {
+        console.log("giving errors", resp);
+        history.push(`/${window.contextPath}/employee/project/response?isSuccess=false`, { message: "TE_CREATION_FAILED" });
+        console.log(history, "error history")
+      }
+    };
+    
+    
 
 
     mutation.mutate(
       {
         params: {},
-        body: {
-          Projects: {
-            ...data,
+        body: {"Projects":
+        [{
+          "tenantId": tenantId,
+          "id":data.id,
+          "name": data.name,
+          "projectType": data.projectTypes.code,
+          "projectSubType": "",
+          "department": "",
+          "description": data.description,
+          "referenceID": "",
+          "documents": [],
+          "address":{ },
+          "isTaskEnabled": false,
+          "parentId": data.parentId,
+          "additionalDetails": {
+            "estimatedCostInRs": data.estimatedCostInRs
           },
-          workflow: {
-            action: "CREATE",
-
-            comment: null,
+          "dateOfProposal": data.dateOfProposal,
+        }]
           },
+          apiOperation: "CREATE"
         },
-      },
+      
       {
-        onError,
         onSuccess,
+        onError,
       }
     );
   }

@@ -7,6 +7,7 @@ const Response = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const queryStrings = Digit.Hooks.useQueryParams();
+  console.log(queryStrings, "<><><<><>")
   const [isResponseSuccess, setIsResponseSuccess] = useState(
     queryStrings?.isSuccess === "true" ? true : queryStrings?.isSuccess === "false" ? false : true
   );
