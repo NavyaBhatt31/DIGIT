@@ -385,4 +385,4 @@ const AdvancedCreate = () => {
   );
 };
 
-export default AdvancedCreate;
+export {AdvancedCreate};

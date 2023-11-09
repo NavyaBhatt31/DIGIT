@@ -46,30 +46,56 @@ export const newConfig = [
         disable: false,
         populators: { name: "referenceID", error: "sample error message", validation: { pattern: /^[A-Za-z]+$/i } },
       },
-      {
+      // {
         
-          label: "Project Type",
-          type: "dropdown",
-          isMandatory: false,
-          disable: false,
-          populators: {
-            name: "projectType",
-            // type: "wards",
-            options: [
-              { value: "Mini Park", label: "Mini Park" },
-              { value: "Child Play Station", label: "Child Play Station" },
-              { value: "Open Air Gym", label: "Open Air Gym" },
-              { value: "Water Body", label: "Water Body" },
-              { value: "Walking Track", label: "Walking Track" },
-              { value: "Playground", label: "Playground" },
-              { value: "Loo", label: "Loo" },
-              { value: "Vending Zone", label: "Vending Zone" },
-            ],
-            defaultText: "COMMON_SELECT_WARD",
-            selectedText: "COMMON_SELECTED",
-            allowMultiSelect: false,
-          },
-        },
+      //     label: "Project Type",
+      //     type: "dropdown",
+      //     isMandatory: false,
+      //     disable: false,
+      //     populators: {
+      //       name: "projectType",
+      //       optionsKey:"name",
+      //       required : false,
+      //       // type: "wards",
+      //       // options: [
+      //       //   { code: "Mini Park", name: "Mini Park" },
+              
+      //       // ],
+      //       mdmsConfig:{
+      //         masterName:"ProjectType",
+      //         moduleName:"works",
+      //         localeprefix:"COMMON_MASTERS"
+      //       }
+      //       // defaultText: "COMMON_SELECT_WARD",
+      //       // selectedText: "COMMON_SELECTED",
+      //     },
+      //   },
+      // {
+      //   isMandatory:true,
+      //   key:"projectTypes",
+      //   disable:false,
+      //   label:"Project Type",
+      //   type:"radioordropdown",
+      //   populators:{
+      //     name:"projectTypes",
+      //     optionsKey:"name",
+      //     required:true,
+      //     // mdmsConfig:{
+      //     //   masterName:"ProjectType",
+      //     //   moduleName:"works",
+      //     //   localePrefix:"COMMON_MASTERS",
+      //     // }
+      //     options: [
+      //       { code: "Mini Park", name: "Mini Park" },]
+      //       // { code: "Child Play Station", name: "Child Play Station" },
+      //       // { code: "Open Air Gym", name: "Open Air Gym" },
+      //       // { code: "Water Body", name: "Water Body" },
+      //       // { code: "Walking Track", name: "Walking Track" },
+      //       // { code: "Playground", name: "Playground" },
+      //       // { code: "Loo", name: "Loo" },
+      //       // { code: "Vending Zone", name: "Vending Zone" },]
+      //   }
+      // },
         {
           inline: true,
           label: "Estimated Cost (₹)",
@@ -93,7 +119,7 @@ export const newConfig = [
         disable: false,
         populators: {
           name: "projadditionalDetails",
-          allowMultiSelect: false,
+          // allowMultiSelect: false,
         },
       },
 
@@ -143,7 +169,7 @@ export const newConfig = [
       },
       config: {
         enabled: true,
-        // select: (data) => data?.Employees?.map((e) => ({ code: e?.code, name: e?.user?.name })),
+        select: (data) => data?.Employees?.map((e) => ({ code: e?.code, name: e?.user?.name })),
       },
 
     };
@@ -157,17 +183,19 @@ export const newConfig = [
       history.push(`/${window.contextPath}/employee/project/response?isSuccess=${false}`, { message: "TE_CREATION_FAILED" });
     };
     const onSuccess = (resp) => {
-      history.push(`/${window.contextPath}/employee/project/response?appNo=${resp.contracts[0].supplementNumber}&isSuccess=${true}`, {
+      history.push(`/${window.contextPath}/employee/project/response?appNo=${resp.project[0]}&isSuccess=${true}`, {
         message: isEdit ? "TE_EDIT_SUCCESS" : "TE_CREATION_SUCCESS",
         showID: true,
         label: "REVISED_WO_NUMBER",
       });
     };
+
+
     mutation.mutate(
       {
         params: {},
         body: {
-          project: {
+          Projects: {
             ...data,
           },
           workflow: {
