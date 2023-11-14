@@ -12,7 +12,7 @@ const SearchWageSeeker = () => {
   const wageSeekerSession = Digit.Hooks.useSessionStorage("WAGE_SEEKER_CREATE", {});
   const [sesionFormData, clearSessionFormData] = wageSeekerSession;
 
-  //const indConfigs = searchWageSeekerConfig();
+  // const indConfigs = searchWageSeekerConfig();
   const configModuleName = Digit.Utils.getConfigModuleName()
   const tenant = Digit.ULBService.getStateId();
   const { isLoading, data } = Digit.Hooks.useCustomMDMS(
