@@ -1,23 +1,22 @@
-const searchWageSeekerConfig = () => {
+const searchConfig = () => {
   return {
-    label: "WORKS_SEARCH_WAGESEEKERS",
-    type: "search",
-    actionLabel: "WORKS_ADD_WAGESEEKER",
-    actionRole: "INDIVIDUAL_CREATOR",
-    actionLink: "masters/create-wageseeker",
-    apiDetails: {
-      serviceName: "/individual/v1/_search",
-      requestParam: {},
-      requestBody: {
-        apiOperation: "SEARCH",
-        Individual: {},
-      },
-      minParametersForSearchForm: 1,
-      masterName: "commonUiConfig",
-      moduleName: "SearchWageSeekerConfig",
-      tableFormJsonPath: "requestParam",
-      filterFormJsonPath: "requestBody.Individual",
-      searchFormJsonPath: "requestBody.Individual",
+    "label": "SEARCH_PROJECTS",
+    "type": "search",
+    "apiDetails": {
+        "serviceName": "/user/_search",
+        "requestParam": {},
+        "requestBody": {
+            "apiOperation": "SEARCH",
+            "Projects": [
+                {}
+            ]
+        },
+        "minParametersForSearchForm": 1,
+        "masterName": "commonUiConfig",
+        "moduleName": "SearchProjectConfig",
+        "tableFormJsonPath": "requestParam",
+        "filterFormJsonPath": "requestBody.Projects[0]",
+        "searchFormJsonPath": "requestBody.Projects[0]"
     },
     sections: {
       search: {
@@ -28,163 +27,156 @@ const searchWageSeekerConfig = () => {
           secondaryLabel: "ES_COMMON_CLEAR_SEARCH",
           minReqFields: 1,
           defaultValues: {
-            wardCode: "",
-            individualId: "",
-            name: "",
-            socialCategory: "",
-            // mobileNumber: "",
-            createdFrom: "",
-            createdTo: "",
+            "id": "",
+         
+            "name": "",
+            "projectType": "",
+            "createdFrom": "",
+            "createdTo": ""
           },
           fields: [
             {
-              "label": "COMMON_WARD",
-              "type": "locationdropdown",
-              "isMandatory": false,
-              "disable": false,
-              "populators": {
-                  "name": "wardCode",
-                  "type": "ward",
-                "optionsKey": "i18nKey",
-                  "defaultText": "COMMON_SELECT_WARD",
-                  "selectedText": "COMMON_SELECTED",
-                  "allowMultiSelect": false
-              }
-          },
-            {
-              label: "MASTERS_WAGESEEKER_NAME",
-              type: "text",
-              isMandatory: false,
-              disable: false,
-              populators: { name: "name", validation: { pattern: /^[^{0-9}^\$\"<>?\\\\~!@#$%^()+={}\[\]*,/_:;“”‘’]{1,50}$/i, maxlength: 140 } },
-            },
-            {
-              label: "PROJECT_ID",
-              type: "text",
-              isMandatory: false,
-              disable: false,
-              populators: {
-                name: "individualId",
-                error: `PROJECT_PATTERN_ERR_MSG`,
-                validation: {  minlength: 2 },
+              "label": "WORKS_PROJECT_ID",
+                            "type": "text",
+                            "isMandatory": false,
+                            "disable": false,
+                            "populators": {
+                                "name": "id",
+                                "error": "PROJECT_PATTERN_ERR_MSG",
+                                "validation": {
+                                    "pattern": "/^[a-z0-9\/-]*$/i",
+                                    "minlength": 2
+                                }
+                            }
+                        },
+                        
+                        {
+                            "label": "PROJECT_NAME",
+                            "type": "text",
+                            "isMandatory": false,
+                            "disable": false,
+                            "populators": {
+                                "name": "name",
+                                "error": "PROJECT_PATTERN_ERR_MSG",
+                                "validation": {
+                                    "pattern": "/^[a-z0-9\/-@#]*$/i",
+                                    "minlength": 2
+                                }
+                            }
+                        },
+                        {
+                            "label": "WORKS_PROJECT_TYPE",
+                            "type": "dropdown",
+                            "isMandatory": false,
+                            "disable": false,
+                            "populators": {
+                                "name": "projectType",
+                                "optionsKey": "name",
+                                "optionsCustomStyle" : {
+                                    "top" : "2.3rem"
+                                },
+                                "mdmsConfig": {
+                                    "masterName": "ProjectType",
+                                    "moduleName": "works",
+                                    "localePrefix": "COMMON_MASTERS"
+                                }
+                            }
+                        },
+                        {
+                            "label": "CREATED_FROM_DATE",
+                            "type": "date",
+                            "isMandatory": false,
+                            "disable": false,
+                            "populators": {
+                                "name": "createdFrom"
+                            }
+                        },
+                        {
+                            "label": "CREATED_TO_DATE",
+                            "type": "date",
+                            "isMandatory": false,
+                            "disable": false,
+                            "populators": {
+                                "name": "createdTo",
+                                "error": "DATE_VALIDATION_MSG"
+                            },
+                            "additionalValidation": {
+                                "type": "date",
+                                "keys": {"start": "createdFrom", "end": "createdTo"}
+                            }
+                        }
+                    ]
+                },
+                "label": "",
+                "children": {},
+                "show": true
               },
-            },
-            // {
-            //   label: "CORE_COMMON_PROFILE_MOBILE_NUMBER",
-            //   type: "mobileNumber",
-            //   isMandatory: false,
-            //   disable: false,
-            //   populators: {
-            //     name: "mobileNumber",
-            //     error: `PROJECT_PATTERN_ERR_MSG`,
-            //     validation: { pattern: /^[a-z0-9\/-@# ]*$/i, minlength: 2 },
-            //   },
-            // },
-            // {
-            //   label: "MASTERS_SOCIAL_CATEGORY",
-            //   type: "dropdown",
-            //   isMandatory: false,
-            //   disable: false,
-            //   populators: {
-            //     name: "socialCategory",
-            //     optionsKey: "code",
-            //     optionsCustomStyle: {
-            //       top: "2.3rem",
-            //     },
-            //     mdmsConfig: {
-            //       masterName: "SocialCategory",
-            //       moduleName: "common-masters",
-            //       localePrefix: "MASTERS",
-            //     },
-            //   },
-            // },
-            {
-              label: "CREATED_FROM_DATE",
-              type: "date",
-              isMandatory: false,
-              disable: false,
-              key : "createdFrom",
-              preProcess : {
-                updateDependent : ["populators.max"]
-              },
-              populators: {
-                name: "createdFrom",
-                max : "currentDate"
-              },
-            },
-            {
-              label: "CREATED_TO_DATE",
-              type: "date",
-              isMandatory: false,
-              disable: false,
-              key : "createdTo",
-              preProcess : {
-                updateDependent : ["populators.max"]
-              },
-              populators: {
-                name: "createdTo",
-                error: "DATE_VALIDATION_MSG",
-                max : "currentDate"
-              },
-              additionalValidation: {
-                type: "date",
-                keys: { start: "createdFrom", end: "createdTo" },
-              },
-            },
-          ],
-        },
-        label: "",
-        children: {},
-        show: true,
-      },
       searchResult: {
-        label: "",
-        uiConfig: {
-          columns: [
-            {
-              label: "MASTERS_WAGESEEKER_ID",
-              jsonPath: "individualId",
-              additionalCustomization: true,
-            },
-            {
-              label: "MASTERS_WAGESEEKER_NAME",
-              jsonPath: "name.givenName",
-            },
-            {
-              label: "MASTERS_FATHER_NAME",
-              jsonPath: "fatherName",
-            },
-            // {
-            //   label: "MASTERS_SOCIAL_CATEGORY",
-            //   jsonPath: "additionalFields.fields[0].value",
-            //   // additionalCustomization: true,
-            // },
-            {
-              label: "CORE_COMMON_PROFILE_CITY",
-              jsonPath: "address[0].tenantId",
-              additionalCustomization: true,
-            },
-            {
-              label: "MASTERS_WARD",
-              jsonPath: "address[0].ward.code",
-              additionalCustomization: true,
-            },
-            {
-              label: "MASTERS_LOCALITY",
-              jsonPath: "address[0].locality.code",
-              additionalCustomization: true,
-            },
-          ],
-          enableGlobalSearch: false,
-          enableColumnSort: true,
-          resultsJsonPath: "Individual",
+        "label": "",
+                "uiConfig": {
+                    "defaultValues": {
+                        "offset": 0,
+                        "limit": 10,
+                        "sortOrder": "ASC"
+                    },
+                    "columns": [
+                        {
+                            "label": "WORKS_PRJ_SUB_ID",
+                            "jsonPath": "id",
+                            "additionalCustomization": true
+                        },
+                        {
+                            "label": "WORKS_PROJECT_NAME",
+                            "jsonPath": "name",
+                            "maxLength": 20,
+                            "additionalCustomization":true
+                        },
+                        {
+                            "label": "PROJECT_OWNING_DEPT",
+                            "jsonPath": "department",
+                            "translate": true,
+                            "prefix": "COMMON_MASTERS_DEPARTMENT_"
+                        },
+                        {
+                            "label": "WORKS_PROJECT_TYPE",
+                            "jsonPath": "projectType"
+                        },
+                        {
+                            "label": "WORKS_SUB_PROJECT_TYPE",
+                            "jsonPath": "projectSubType"
+                        },
+                        {
+                            "label": "ES_COMMON_WORK_NATURE",
+                            "jsonPath": "natureOfWork"
+                        },
+                        {
+                            "label": "WORKS_PARENT_PROJECT_ID",
+                            "jsonPath": "ancestors[0].projectNumber",
+                            "additionalCustomization": true
+                        },
+                        {
+                            "label": "ES_COMMON_CREATED_BY",
+                            "jsonPath": "additionalDetails.creator"
+                        },
+                        {
+                            "label": "ES_COMMON_STATUS",
+                            "jsonPath": "status"
+                        },
+                        {
+                            "label": "ES_COMMON_TOTAL_AMOUNT",
+                            "jsonPath": "additionalDetails.estimatedCostInRs"
+                        }
+                    ],
+                    "enableGlobalSearch": false,
+                    "enableColumnSort": true,
+                    "resultsJsonPath": "Projects"
+                },
+                "children": {},
+                "show": true
+            }
         },
-        children: {},
-        show: true,
-      },
-    },
-    additionalSections: {},
-  };
+        "additionalSections": {}
+    }
 };
 
-export default searchWageSeekerConfig;
+export default searchConfig;

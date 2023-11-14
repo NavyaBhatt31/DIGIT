@@ -4,29 +4,34 @@ import { Header, InboxSearchComposer, Loader, Button, AddFilled } from "@egovern
 // import searchWageSeekerConfig from "../../configs/searchWageSeekerConfig";
 import { useHistory, useLocation } from "react-router-dom";
 
-// const projSearch = () => {
-//   const { t } = useTranslation();
-//   const history = useHistory();
-//   const location = useLocation();
+const projSearch = () => {
+  const { t } = useTranslation();
+  const history = useHistory();
+  const location = useLocation();
 
   // const wageSeekerSession = Digit.Hooks.useSessionStorage("WAGE_SEEKER_CREATE", {});
   // const [sesionFormData, clearSessionFormData] = wageSeekerSession;
 
-  // const configModuleName = Digit.Utils.getConfigModuleName();
-  // const tenant = Digit.ULBService.getStateId();
-  // const { isLoading, data } = Digit.Hooks.useCustomMDMS(
-  //     tenant,
-  //     configModuleName,
-  //  [
-  //   {
-  //     name: "SearchIndividualConfig",
-  //   },
-  // ]);
+  const configModuleName = Digit.Utils.getConfigModuleName();
+  const tenant = Digit.ULBService.getStateId();
+  const { isLoading, data } = Digit.Hooks.useCustomMDMS(
+      tenant,
+      configModuleName,
+   [
+    {
+      name: "SearchProjectConfig",
+    },
+  ],
 
-  const indConfigs = data?.[configModuleName]?.SearchIndividualConfig?.[0];
-  const mutation = Digit.Hooks.useCustomAPIMutationHook(reqCriteriaCreate);
-  const history = useHistory();
-  const [dept, setDept] = useState("");
+  {
+    select: (data) => {
+        return data?.[Digit.Utils.getConfigModuleName()]?.SearchProjectConfig?.[0];
+    },
+  }
+  )
+  // const mutation = Digit.Hooks.useCustomAPIMutationHook(reqCriteriaCreate);
+
+  // const [dept, setDept] = useState("");
   // const requestCriteria = {
   //   url: "/egov-hrms/employees/_search",
   //   body: {},
@@ -38,11 +43,11 @@ import { useHistory, useLocation } from "react-router-dom";
   //     sortOrder: "ASC",
   //     // departments: ADM
   //     // roles: SYSTEM,EMPLOYEE
-  //   },
+  // //   },
   //   config: {
   //     select: (data) => data?.Employees?.map((e) => ({ code: e?.code, name: e?.user?.name })),
-  //   },
-  // };
+    
+  
   const requestCriteria1 = {
     url:  Urls.searchproj.search ,
     body: {},
@@ -62,48 +67,13 @@ import { useHistory, useLocation } from "react-router-dom";
       select: (data) => data?.Employees?.map((e) => ({ code: e?.code, name: e?.user?.name })),
     },
   };
-  const { isLoading, data: empData = [] } = Digit.Hooks.useCustomAPIHook(requestCriteria);
+  const {  data: empData = [] } = Digit.Hooks.useCustomAPIHook(requestCriteria1);
   const { isLoading: isLoadingEmpData, data: filteredEmpData = [], revalidate } = Digit.Hooks.useCustomAPIHook(requestCriteria1);
 
   console.log(empData, "empData", filteredEmpData);
-  const onSubmit = (data) => {
-    ///
-    console.log(data, "data");
-    const onError = (resp) => {
-      history.push(`/${window.contextPath}/employee/sample/response?isSuccess=${false}`, { message: "TE_CREATION_FAILED" });
-    };
-
-    const onSuccess = (resp) => {
-      history.push(`/${window.contextPath}/employee/sample/response?appNo=${resp.contracts[0].supplementNumber}&isSuccess=${true}`, {
-        message: isEdit ? "TE_EDIT_SUCCESS" : "TE_CREATION_SUCCESS",
-        showID: true,
-        label: "REVISED_WO_NUMBER",
-      });
-    };
-
-    mutation.mutate(
-      {
-        params: {},
-        body: {
-          contract: {
-            ...data,
-          },
-          workflow: {
-            action: "SEARCH",
-
-            comment: null,
-          },
-        },
-      },
-      {
-        onError,
-        onSuccess,
-      }
-    );
-  };
-
+ 
   let configs = useMemo(
-    () => Digit.Utils.preProcessMDMSConfigInboxSearch(t, indConfigs, "sections.search.uiConfig.fields",{
+    () => Digit.Utils.preProcessMDMSConfigInboxSearch(t, data, "sections.search.uiConfig.fields",{
       updateDependent : [
         {
           key : "createdFrom",
@@ -115,12 +85,12 @@ import { useHistory, useLocation } from "react-router-dom";
         }
       ]
     }
-    ),[indConfigs]);
-
+    ),[data]);
+    // ),[]);
 
 
   useEffect(() => {
-    if (!window.location.href.includes("modify-wageseeker") && sesionFormData && Object.keys(sesionFormData) !== 0) {
+    if (!window.location.href.includes("create-project") && sesionFormData && Object.keys(sesionFormData) !== 0) {
       clearSessionFormData();
     }
   }, [location]);
@@ -147,6 +117,5 @@ import { useHistory, useLocation } from "react-router-dom";
       </div>
     </React.Fragment>
   );
-
-
+          }
 export default projSearch;
