@@ -425,4 +425,124 @@ export const UICustomizations = {
       }
     }
   },
+  SearchProjectConfig: {
+    customValidationCheck: (data) => {
+      //checking both to and from date are present
+      const { createdFrom, createdTo } = data;
+      if ((createdFrom === "" && createdTo !== "") || (createdFrom !== "" && createdTo === ""))
+        return { warning: true, label: "ES_COMMON_ENTER_DATE_RANGE" };
+
+      return false;
+    },
+    preProcess: (data) => {
+  
+      const projectType = data.body.Projects[0]?.projectType?.code;
+      data.params = { ...data.params, tenantId: Digit.ULBService.getCurrentTenantId(), includeAncestors: true, createdFrom, createdTo };
+
+      let name = data.body.Projects[0]?.name;
+      name = name?.trim();
+      delete data.body.Projects[0]?.createdFrom;
+      delete data.body.Projects[0]?.createdTo;
+      data.body.Projects[0] = { ...data.body.Projects[0], tenantId: Digit.ULBService.getCurrentTenantId(), projectType, name };
+     
+      const dateConfig = {
+        createdFrom: "daystart",
+        createdTo: "dayend",
+      };
+
+      const selectConfig = {
+        wardCode: "wardCode[0].code",
+        socialCategory: "socialCategory.code",
+      };
+      const textConfig = ["name", "individualId"]
+      let Projects = Object.keys(requestBody)
+        .map((key) => {
+          if (selectConfig[key]) {
+            requestBody[key] = _.get(requestBody, selectConfig[key], null);
+          } else if (typeof requestBody[key] == "object") {
+            requestBody[key] = requestBody[key]?.code;
+          } else if (textConfig?.includes(key)) {
+            requestBody[key] = requestBody[key]?.trim()
+          }
+          return key;
+        })
+        .filter((key) => requestBody[key])
+
+        .reduce((acc, curr) => {
+          if (pathConfig[curr]) {
+            _.set(acc, pathConfig[curr], requestBody[curr]);
+          } else if (dateConfig[curr] && dateConfig[curr]?.includes("day")) {
+            _.set(acc, curr, Digit.Utils.date.convertDateToEpoch(requestBody[curr], dateConfig[curr]));
+          } else {
+            _.set(acc, curr, requestBody[curr]);
+          }
+          return acc;
+        }, 
+
+        )
+      return data;
+      },
+        additionalCustomizations: (_row, _key, _column, _value, _t, ) => {
+          switch(key){
+      
+        case "PRJ_SUB_ID": {
+          return (
+            <span className="link">
+              <Link to={`/${window.contextPath}/employee/project/project-details?tenantId=${row?.tenantId}&projectNumber=${value}`}>
+              {String(value ? value : t("ES_COMMON_NA"))}
+              </Link>
+            </span>
+          );
+        }
+  
+        case "PROJECT_ID": 
+          return value ? (
+            <span className="link">
+              <Link to={`/${window.contextPath}/employee/project/project-details?tenantId=${row.tenantId}&projectNumber=${value}`}>
+              {String(value ? value : t("ES_COMMON_NA"))}
+              </Link>
+            </span>
+          ) : (
+            t("ES_COMMON_NA")
+          );
+        
+  
+        case "PROJECT_NAME": {
+          return (
+            <div class="tooltip">
+              <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
+                {String(t(value))}
+              </span>
+              {/* check condtion - if length greater than 20 */}
+              <span class="tooltiptext" style={{ whiteSpace: "nowrap" }}>
+                {String(t(value))}
+              </span>
+            </div>
+          )
+        }
+        
+          }  
+      },
+      
+    },
+      
+
+ProjectInboxConfig: {
+  preProcess: (data) => {
+    const createdFrom = Digit.Utils.pt.convertDateToEpoch(data.body.Projects[0]?.createdFrom);
+    const createdTo = Digit.Utils.pt.convertDateToEpoch(data.body.Projects[0]?.createdTo);
+    const projectType = data.body.Projects[0]?.projectType?.code;
+    data.params = { ...data.params, tenantId: Digit.ULBService.getCurrentTenantId(), includeAncestors: true, createdFrom, createdTo };
+    let name = data.body.Projects[0]?.name;
+    name = name?.trim();
+    delete data.body.Projects[0]?.createdFrom;
+    delete data.body.Projects[0]?.createdTo;
+    delete data.body.Projects[0]?.department;
+    delete data.body.Projects[0]?.createdBy;
+    delete data.body.Projects[0]?.status;
+    data.body.Projects[0] = { ...data.body.Projects[0], tenantId: Digit.ULBService.getCurrentTenantId(), projectType, name };
+
+    return data;
+  }
+}
 };

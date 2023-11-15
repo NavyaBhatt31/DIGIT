@@ -4,7 +4,7 @@ const inboxConfig = () => {
       type : "inbox", 
    
       apiDetails: {
-          serviceName: "/project/v1/_search",
+          serviceName: "/user/_search",
           requestParam: {
           },
           requestBody: {

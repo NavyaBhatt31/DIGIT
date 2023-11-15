@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Header, InboxSearchComposer, Loader, Button, AddFilled } from "@egovernments/digit-ui-react-components";
+import { Header, InboxSearchComposer, Loader} from "@egovernments/digit-ui-react-components";
 // import searchConfig from "../../configs/searchConfig";
 import { useHistory, useLocation } from "react-router-dom";
 
-const ProjectSearch = () => {
+const Search = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
@@ -29,49 +29,29 @@ const ProjectSearch = () => {
     },
   }
   )
-  {
-  // const mutation = Digit.Hooks.useCustomAPIMutationHook(reqCriteriaCreate);
+  const requestCriteria1 = {
+    url:  "/user/_search" ,
+    body: {},
+    changeQueryName: `custom-${dept}`,
+    params: {
+      // tenantId:tenantId,
+      tenantId: "pg.citya",
+      limit: 10,
+      offset: 0,
+      sortOrder: "ASC",
+      departments: dept,
+      // roles: SYSTEM,EMPLOYEE
+    },
+    config: {
+      enabled: dept?.length > 0,
+      cacheTime: 0,
+      select: (data) => data?.Employees?.map((e) => ({ code: e?.code, name: e?.user?.name })),
+    },
+  };
+  const {  data: empData = [] } = Digit.Hooks.useCustomAPIHook(requestCriteria1);
+  const { isLoading: isLoadingEmpData, data: filteredEmpData = [], revalidate } = Digit.Hooks.useCustomAPIHook(requestCriteria1);
 
-  // const [dept, setDept] = useState("");
-  // const requestCriteria = {
-  //   url: "/egov-hrms/employees/_search",
-  //   body: {},
-  //   params: {
-  //     // tenantId:tenantId,
-  //     tenantId: "pg.citya",
-  //     limit: 10,
-  //     offset: 0,
-  //     sortOrder: "ASC",
-  //     // departments: ADM
-  //     // roles: SYSTEM,EMPLOYEE
-  // //   },
-  //   config: {
-  //     select: (data) => data?.Employees?.map((e) => ({ code: e?.code, name: e?.user?.name })),
-    
-  
-  // const requestCriteria1 = {
-  //   url:  Urls.searchproj.search ,
-  //   body: {},
-  //   changeQueryName: `custom-${dept}`,
-  //   params: {
-  //     // tenantId:tenantId,
-  //     tenantId: "pg.citya",
-  //     limit: 10,
-  //     offset: 0,
-  //     sortOrder: "ASC",
-  //     departments: dept,
-  //     // roles: SYSTEM,EMPLOYEE
-  //   },
-  //   config: {
-  //     enabled: dept?.length > 0,
-  //     cacheTime: 0,
-  //     select: (data) => data?.Employees?.map((e) => ({ code: e?.code, name: e?.user?.name })),
-  //   },
-  // // };
-  // const {  data: empData = [] } = Digit.Hooks.useCustomAPIHook(requestCriteria1);
-  // const { isLoading: isLoadingEmpData, data: filteredEmpData = [], revalidate } = Digit.Hooks.useCustomAPIHook(requestCriteria1);
-
-  // console.log(empData, "empData", filteredEmpData);
+  console.log(empData, "empData", filteredEmpData);
   }
   let configs = useMemo(
     () => Digit.Utils.preProcessMDMSConfigInboxSearch(t, data, "sections.search.uiConfig.fields",{
@@ -108,5 +88,5 @@ const ProjectSearch = () => {
       </div>
     </React.Fragment>
   );
-          }
-export default ProjectSearch;
+          
+export default Search;

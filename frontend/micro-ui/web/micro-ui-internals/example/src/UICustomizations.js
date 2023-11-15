@@ -483,33 +483,11 @@ export const UICustomizations = {
 
         )
       return data;
-    },
-    postProcess: (responseArray) => {
-      const listOfUuids = responseArray?.map((row) => row.auditDetails.createdBy);
-      const uniqueUuids = listOfUuids?.filter(function (item, i, ar) {
-        return ar.indexOf(item) === i;
-      });
-      const tenantId = Digit.ULBService.getCurrentTenantId();
-      const reqCriteria = {
-        url: "/user/_search",
-        params: {},
-        body: { tenantId, pageSize: 100, uuid: [...uniqueUuids] },
-        config: {
-          enabled: responseArray?.length > 0 ? true : false,
-          select: (data) => {
-            const usersResponse = data?.user;
-            responseArray?.forEach((row) => {
-              const uuid = row?.auditDetails?.createdBy;
-              const user = usersResponse?.filter((user) => user.uuid === uuid);
-              row.createdBy = user?.[0].name;
-            });
-            return responseArray;
-          },
-        },
-      };
-      additionalCustomizations: (row, key, column, value, t, searchResult) => {
+      },
+        additionalCustomizations: (_row, _key, _column, _value, _t, ) => {
+          switch(key){
       
-        if (key === "PRJ_SUB_ID") {
+        case "PRJ_SUB_ID": {
           return (
             <span className="link">
               <Link to={`/${window.contextPath}/employee/project/project-details?tenantId=${row?.tenantId}&projectNumber=${value}`}>
@@ -519,7 +497,7 @@ export const UICustomizations = {
           );
         }
   
-        if (key === "PROJECT_ID") {
+        case "PROJECT_ID": 
           return value ? (
             <span className="link">
               <Link to={`/${window.contextPath}/employee/project/project-details?tenantId=${row.tenantId}&projectNumber=${value}`}>
@@ -529,9 +507,9 @@ export const UICustomizations = {
           ) : (
             t("ES_COMMON_NA")
           );
-        }
+        
   
-        if (key === "PROJECT_NAME") {
+        case "PROJECT_NAME": {
           return (
             <div class="tooltip">
               <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
@@ -542,36 +520,15 @@ export const UICustomizations = {
                 {String(t(value))}
               </span>
             </div>
-          );
+          )
         }
-      };
-      MobileDetailsOnClick: (row, tenantId) => {
-        let link;
-        Object.keys(row).map((key) => {
-          if (key === " PRJ_SUB_ID")
-            link = `/${window.contextPath}/employee/project/project-details?tenantId=${tenantId}&projectNumber=${row[key]}`;
-        });
-        return link;
-      };
-      additionalValidations: (type, data, keys) => {
-        if (type === "date") {
-          return data[keys.start] && data[keys.end] ? () => new Date(data[keys.start]).getTime() < new Date(data[keys.end]).getTime() : true;
-        }
-      };
-    
-    
-      const { isLoading: isPostProcessLoading, data: combinedResponse, isFetching: isPostProcessFetching } = Digit.Hooks.useCustomAPIHook(
-        reqCriteria
-      );
-
-      return {
-        isPostProcessFetching,
-        isPostProcessLoading,
-        combinedResponse,
-      };
+        
+          }  
+      },
+      
     },
-    
-},
+      
+
 ProjectInboxConfig: {
   preProcess: (data) => {
     const createdFrom = Digit.Utils.pt.convertDateToEpoch(data.body.Projects[0]?.createdFrom);
@@ -588,6 +545,6 @@ ProjectInboxConfig: {
     data.body.Projects[0] = { ...data.body.Projects[0], tenantId: Digit.ULBService.getCurrentTenantId(), projectType, name };
 
     return data;
-  },
-},
+  }
+}
 }

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Route, Switch } from "react-router-dom";
 import Create from "./proj";
 import projInbox from "./projInbox";
-// import ProjectSearch from "./ProjectSearch";
+import Search from "./Search";
 // import AdvancedCreate from "./AdvancedForm";
 import Response from "./Response";
 import View from "./View";
@@ -39,7 +39,7 @@ const App = ({ path, stateCode, userType, tenants }) => {
         <PrivateRoute path={`${path}/create`} component={() => <Create></Create>} />
         {/* <PrivateRoute path={`${path}/advanced`} component={() => <AdvancedCreate></AdvancedCreate>} /> */}
         <PrivateRoute path={`${path}/inbox`} component={() => <projInbox></projInbox>} />
-        <PrivateRoute path={`${path}/search`} component={() => <ProjectSearch></ProjectSearch>} />
+        <PrivateRoute path={`${path}/search`} component={() => <Search></Search>} />
         <PrivateRoute path={`${path}/response`} component={() => <Response></Response>} />
         <PrivateRoute path={`${path}/view`} component={() => <View></View>} />
 
