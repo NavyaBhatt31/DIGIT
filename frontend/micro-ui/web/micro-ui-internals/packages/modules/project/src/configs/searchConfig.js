@@ -36,21 +36,24 @@ const searchConfig = () => {
           },
           fields: [
             {
-              "label": "WORKS_PROJECT_ID",
-                            "type": "text",
-                            "isMandatory": false,
-                            "disable": false,
-                            "populators": {
-                                "name": "id",
-                                "error": "PROJECT_PATTERN_ERR_MSG",
-                                "validation": {
-                                    "pattern": "/^[a-z0-9\/-]*$/i",
-                                    "minlength": 2
-                                }
+                    "key": "PROJECT_ID",
+                    "label": "PROJECT_ID",
+                    "type": "text",
+                    "isMandatory": false,
+                    "disable": false,
+                    "populators": {
+                        "name": "id",
+                        "error": "PROJECT_PATTERN_ERR_MSG",
+                        "validation": {
+                            "pattern": "/^[a-z0-9\/-]*$/i",
+                            "minlength": 2
+                                },  
                             }
+                        
                         },
                         
                         {
+                            "key": "PROJECT_NAME",
                             "label": "PROJECT_NAME",
                             "type": "text",
                             "isMandatory": false,
@@ -131,37 +134,16 @@ const searchConfig = () => {
                             "maxLength": 20,
                             "additionalCustomization":true
                         },
-                        {
-                            "label": "PROJECT_OWNING_DEPT",
-                            "jsonPath": "department",
-                            "translate": true,
-                            "prefix": "COMMON_MASTERS_DEPARTMENT_"
-                        },
+                        
                         {
                             "label": "WORKS_PROJECT_TYPE",
                             "jsonPath": "projectType"
                         },
-                        {
-                            "label": "WORKS_SUB_PROJECT_TYPE",
-                            "jsonPath": "projectSubType"
-                        },
-                        {
-                            "label": "ES_COMMON_WORK_NATURE",
-                            "jsonPath": "natureOfWork"
-                        },
-                        {
-                            "label": "WORKS_PARENT_PROJECT_ID",
-                            "jsonPath": "ancestors[0].projectNumber",
-                            "additionalCustomization": true
-                        },
-                        {
-                            "label": "ES_COMMON_CREATED_BY",
-                            "jsonPath": "additionalDetails.creator"
-                        },
-                        {
-                            "label": "ES_COMMON_STATUS",
-                            "jsonPath": "status"
-                        },
+                        
+                        
+                       
+                    
+                    
                         {
                             "label": "ES_COMMON_TOTAL_AMOUNT",
                             "jsonPath": "additionalDetails.estimatedCostInRs"

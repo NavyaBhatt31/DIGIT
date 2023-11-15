@@ -1,224 +1,256 @@
 const inboxConfig = () => {
   return {
-    label: "ES_COMMON_INBOX",
-    postProcessResult: true,
-    type: "inbox",
-    apiDetails: {
-      serviceName: "/inbox/v2/_search",
-      requestParam: {},
-      requestBody: {
-        inbox: {
-          processSearchCriteria: {
-            businessService: ["muster-roll-approval"],
-            moduleName: "muster-roll-service",
+      label : "ES_COMMON_INBOX",
+      type : "inbox", 
+   
+      apiDetails: {
+          serviceName: "/project/v1/_search",
+          requestParam: {
           },
-          moduleSearchCriteria: {},
-        },
+          requestBody: {
+              apiOperation: "SEARCH",
+              Projects: [
+                  {   
+
+                  }
+              ]
+          },
+          minParametersForSearchForm:1,
+          masterName:"commonUiConfig",
+          moduleName:"ProjectInboxConfig",
+          tableFormJsonPath:"requestParam",
+          filterFormJsonPath:"requestBody.Projects[0]",
+          searchFormJsonPath:"requestBody.Projects[0]"
       },
-      minParametersForSearchForm: 0,
-      minParametersForFilterForm: 0,
-      masterName: "commonUiConfig",
-      moduleName: "AttendanceInboxConfig",
-      tableFormJsonPath: "requestBody.inbox",
-      filterFormJsonPath: "requestBody.inbox.moduleSearchCriteria",
-      searchFormJsonPath: "requestBody.inbox.moduleSearchCriteria",
-    },
-    sections: {
-      search: {
-        uiConfig: {
-          headerStyle: null,
-          primaryLabel: "ES_COMMON_SEARCH",
-          secondaryLabel: "ES_COMMON_CLEAR_SEARCH",
-          minReqFields: 1,
-          defaultValues: {
-            attendanceRegisterName: "",
-            orgId: "",
-            musterRollNumber: "",
+      sections : {
+          search : {
+              uiConfig : {
+                  headerStyle : null,
+                  primaryLabel: 'ES_COMMON_SEARCH',
+                  secondaryLabel: 'ES_COMMON_CLEAR_SEARCH',
+                  minReqFields: 1,
+                  defaultValues : {
+                      projectNumber: "",
+                      department: "",
+                      projectType: ""
+                  },
+                  fields : [
+                      {
+                          label:"WORKS_PROJECT_ID",
+                          type: "text",
+                          isMandatory: false,
+                          disable: false,
+                          populators: { 
+                              name: "projectNumber",
+                              error: `PROJECT_PATTERN_ERR_MSG`,
+                              validation: { pattern: /^[a-z0-9\/-]*$/i, minlength : 2 }
+                          }
+                      },
+                      
+                      {
+                          label: "ACTION_TEST_DEPARTMENT",
+                          type: "dropdown",
+                          isMandatory: false,
+                          disable: false,
+                          populators: {
+                            name: "department",
+                            optionsKey: "name",
+                            optionsCustomStyle : {
+                              top : "2.3rem"
+                            },
+                            mdmsConfig: {
+                              masterName: "Department",
+                              moduleName: "common-masters",
+                              localePrefix: "COMMON_MASTERS_DEPARTMENT",
+                            }
+                          }
+                      },
+                      {
+                        label: "WORKS_PROJECT_TYPE",
+                        type: "dropdown",
+                        isMandatory: false,
+                        disable: false,
+                        populators: {
+                          name: "projectType",
+                          optionsKey: "name",
+                          optionsCustomStyle : {
+                              top : "2.3rem"
+                          },
+                          mdmsConfig: {
+                            masterName: "ProjectType",
+                            moduleName: "works",
+                            localePrefix: "COMMON_MASTERS",
+                          }
+                        }
+                      }
+                  ]
+              },
+              label : "",
+              children : {},
+              show : true
           },
-          fields: [
-            {
-              label: "ATM_MUSTER_ROLL_ID",
-              type: "text",
-              isMandatory: false,
-              disable: false,
-              preProcess: {
-                convertStringToRegEx: ["populators.validation.pattern"],
+          links : {
+              uiConfig : {
+                  links : [
+                      {
+                          text: "WORKS_CREATE_PROJECT",
+                          url: `/employee/project/create-project`,
+                          roles: [],
+                      },
+                      {
+                          text: "WORKS_SEARCH_PROJECTS",
+                          url: `/employee/project/search-project`,
+                          roles: [],
+                      }
+                  ],
+                  label : "PROJECT_INBOX",
+                  logoIcon : { //Pass the name of the Icon Component as String here and map it in the InboxSearchLinks Component   
+                      component : "PropertyHouse",
+                      customClass : "inbox-search-icon--projects"         
+                  }
               },
-              populators: {
-                name: "musterRollNumber",
-                error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
-                validation: {
-                  pattern: "MR\\/[0-9]+-[0-9]+\\/[0-9]+\\/[0-9]+",
-                  minlength: 2,
-                },
-              },
-            },
-            {
-              label: "ES_COMMON_PROJECT_NAME",
-              type: "text",
-              isMandatory: false,
-              disable: false,
-              populators: {
-                name: "attendanceRegisterName",
-                error: "PROJECT_PATTERN_ERR_MSG",
-              },
-            },
-            {
-              label: "COMMON_ORG_NAME",
-              type: "apidropdown",
-              isMandatory: false,
-              disable: false,
-              populators: {
-                name: "orgId",
-                optionsKey: "name",
-                allowMultiSelect: false,
-                masterName: "commonUiConfig",
-                moduleName: "AttendanceInboxConfig",
-                customfn: "populateReqCriteria",
-              },
-            },
-          ],
-        },
-        label: "",
-        children: {},
-        show: true,
-      },
-      links: {
-        uiConfig: {
-          links: [
-            {
-              text: "ATM_SEARCH_ATTENDANCE",
-              url: "/employee/attendencemgmt/search-attendance",
-              roles: ["MUSTER_ROLL_VERIFIER", "MUSTER_ROLL_APPROVER"],
-            },
-          ],
-          label: "ES_COMMON_ATTENDENCEMGMT",
-          logoIcon: {
-            component: "MuktaIcon",
-            customClass: "search-icon--projects",
+              children : {},
+              show : true //by default true. 
           },
-        },
-        children: {},
-        show: true,
-      },
-      filter: {
-        uiConfig: {
-          type: "filter",
-          headerStyle: null,
-          primaryLabel: "Filter",
-          secondaryLabel: "",
-          minReqFields: 1,
-          defaultValues: {
-            state: "",
-            ward: [],
-            locality: [],
-            assignee: {
-              code: "ASSIGNED_TO_ALL",
-              name: "EST_INBOX_ASSIGNED_TO_ALL",
-            },
+          filter : {
+              uiConfig : {
+                  type : 'filter',
+                  headerStyle : null,
+                  primaryLabel: 'ES_COMMON_APPLY',
+                  minReqFields: 0,
+                  secondaryLabel: '',
+                  defaultValues : {
+                      projectFromDate: "",
+                      projectToDate: "",
+                      createdBy: "",
+                      status: ""
+                  },
+                  fields : [
+                      {
+                          label:"WORKS_PROJECT_CREATED_FROM_DATE",
+                          type: "date",
+                          isMandatory: false,
+                          disable: false,
+                          populators: { 
+                              name: "createdFrom"
+                          },
+                      },
+                      {
+                          label:"WORKS_PROJECT_CREATED_TO_DATE",
+                          type: "date",
+                          isMandatory: false,
+                          disable: false,
+                          populators: { 
+                              name: "createdTo",
+                              error: 'DATE_VALIDATION_MSG'
+                          },
+                          additionalValidation: {
+                              type: 'date',
+                              keys: {start: 'createdFrom', end: 'createdTo'}
+                          }
+                      },
+                      {
+                          label: "ES_COMMON_CREATED_BY",
+                          type: "dropdown",
+                          isMandatory: false,
+                          disable: false,
+                          populators: {
+                            name: "createdBy",
+                            optionsKey: "name",
+                            optionsCustomStyle : {
+                              top : "2.3rem"
+                            },
+                            mdmsConfig: {
+                              masterName: "NatureOfWork",
+                              moduleName: "works",
+                              localePrefix: "COMMON_MASTERS"
+                            }
+                          }
+                      },
+                      {
+                          label: "ES_COMMON_STATUS",
+                          type: "dropdown",
+                          isMandatory: false,
+                          disable: false,
+                          populators: {
+                            name: "status",
+                            optionsKey: "name",
+                            optionsCustomStyle : {
+                              top : "2.3rem"
+                            },
+                            mdmsConfig: {
+                              masterName: "NatureOfWork",
+                              moduleName: "works",
+                              localePrefix: "COMMON_MASTERS"
+                            }
+                          }
+                      }
+                  ]
+              },
+              label : "ES_COMMON_FILTERS",
+              show : true
           },
-          fields: [
-            {
+          searchResult: {
               label: "",
-              type: "radio",
-              isMandatory: false,
-              disable: false,
-              populators: {
-                name: "assignee",
-                options: [
-                  {
-                    code: "ASSIGNED_TO_ME",
-                    name: "EST_INBOX_ASSIGNED_TO_ME",
-                  },
-                  {
-                    code: "ASSIGNED_TO_ALL",
-                    name: "EST_INBOX_ASSIGNED_TO_ALL",
-                  },
-                ],
-                optionsKey: "name",
-                styles: {
-                  gap: "1rem",
-                  flexDirection: "column",
-                },
-                innerStyles: {
-                  display: "flex",
-                },
+              uiConfig: {
+                  columns: [
+                      {
+                          label: "WORKS_PRJ_SUB_ID",
+                          jsonPath: "projectNumber",
+                          additionalCustomization:true
+                      },
+                      {
+                          label: "WORKS_PROJECT_NAME",
+                          jsonPath: "name"
+                      },
+                      {
+                          label: "PROJECT_OWNING_DEPT",
+                          jsonPath: "department",
+                          translate:true,
+                          prefix:"COMMON_MASTERS_DEPARTMENT_",
+                      },
+                      {
+                          label: "WORKS_PROJECT_TYPE",
+                          jsonPath: "projectType",
+                      },
+                      {
+                          label: "WORKS_SUB_PROJECT_TYPE",
+                          jsonPath: "projectSubType",
+                      },
+                      {
+                          label: "ES_COMMON_WORK_NATURE",
+                          jsonPath: "endDate",
+                      },
+                      {
+                          label: "WORKS_PARENT_PROJECT_ID",
+                          jsonPath: "parentId",
+                      },
+                      {
+                          label: "ES_COMMON_CREATED_BY",
+                          jsonPath: "auditDetails.createdBy",
+                      },
+                      {
+                          label: "ES_COMMON_STATUS",
+                          jsonPath: "status",
+                      },
+                      {
+                          label: "ES_COMMON_TOTAL_AMOUNT",
+                          jsonPath: "totalAmount",
+                      }
+                  ],
+                  enableGlobalSearch: false,
+                  enableColumnSort: true,
+                  resultsJsonPath: "Project",
               },
-            },
-            {
-              "label": "COMMON_WARD",
-              "type": "locationdropdown",
-              "isMandatory": false,
-              "disable": false,
-              "populators": {
-                  "name": "ward",
-                  "type": "ward",
-                  "optionsKey": "i18nKey",
-                  "defaultText": "COMMON_SELECT_WARD",
-                  "selectedText": "COMMON_SELECTED",
-                  "allowMultiSelect": true
-              }
-            },
-            {
-              label: "COMMON_WORKFLOW_STATES",
-              type: "workflowstatesfilter",
-              isMandatory: false,
-              disable: false,
-              populators: {
-                name: "state",
-                labelPrefix: "WF_MUSTOR_",
-                businessService: "muster-roll-approval",
-              },
-            },
-          ],
-        },
-        label: "ES_COMMON_FILTERS",
-        show: true,
+              children: {},
+              show: true 
+          }
       },
-      searchResult: {
-        label: "",
-        uiConfig: {
-          columns: [
-            {
-              label: "ATM_MUSTER_ROLL_ID",
-              jsonPath: "businessObject.musterRollNumber",
-              additionalCustomization: true,
-            },
-            {
-              label: "ES_COMMON_PROJECT_NAME",
-              jsonPath: "businessObject.additionalDetails.attendanceRegisterName",
-            },
-            {
-              label: "ES_COMMON_CBO_NAME",
-              jsonPath: "businessObject.additionalDetails.orgName",
-            },
-            {
-              label: "COMMON_ASSIGNEE",
-              jsonPath: "ProcessInstance.assignes[0].name",
-              key: "assignee",
-            },
-            {
-              label: "COMMON_WORKFLOW_STATES",
-              jsonPath: "ProcessInstance.state.state",
-              "additionalCustomization": true,
-              key: "state",
-            },
-            {
-              label: "ATM_SLA",
-              jsonPath: "businessObject.serviceSla",
-              additionalCustomization: true,
-            },
-          ],
-          enableGlobalSearch: false,
-          enableColumnSort: true,
-          resultsJsonPath: "items",
-        },
-        children: {},
-        show: true,
-      },
-    },
-    additionalSections: {},
-  };
-};
+      additionalSections : {
+          //Open for Extensions
+          //One can create a diff Parent card and add additional fields in it.
+      }
+  }
+}
 
 export default inboxConfig;
