@@ -1,3 +1,4 @@
+
 const inboxConfig = () => {
   return {
       label : "ES_COMMON_INBOX",
@@ -36,7 +37,7 @@ const inboxConfig = () => {
                   },
                   fields : [
                       {
-                          label:"WORKS_PROJECT_ID",
+                          label:"PROJECT_ID",
                           type: "text",
                           isMandatory: false,
                           disable: false,
@@ -46,27 +47,9 @@ const inboxConfig = () => {
                               validation: { pattern: /^[a-z0-9\/-]*$/i, minlength : 2 }
                           }
                       },
-                      
+                     
                       {
-                          label: "ACTION_TEST_DEPARTMENT",
-                          type: "dropdown",
-                          isMandatory: false,
-                          disable: false,
-                          populators: {
-                            name: "department",
-                            optionsKey: "name",
-                            optionsCustomStyle : {
-                              top : "2.3rem"
-                            },
-                            mdmsConfig: {
-                              masterName: "Department",
-                              moduleName: "common-masters",
-                              localePrefix: "COMMON_MASTERS_DEPARTMENT",
-                            }
-                          }
-                      },
-                      {
-                        label: "WORKS_PROJECT_TYPE",
+                        label: "PROJECT_TYPE",
                         type: "dropdown",
                         isMandatory: false,
                         disable: false,
@@ -92,13 +75,9 @@ const inboxConfig = () => {
           links : {
               uiConfig : {
                   links : [
+                     
                       {
-                          text: "WORKS_CREATE_PROJECT",
-                          url: `/employee/project/create-project`,
-                          roles: [],
-                      },
-                      {
-                          text: "WORKS_SEARCH_PROJECTS",
+                          text: "SEARCH_PROJECTS",
                           url: `/employee/project/search-project`,
                           roles: [],
                       }
@@ -127,7 +106,7 @@ const inboxConfig = () => {
                   },
                   fields : [
                       {
-                          label:"WORKS_PROJECT_CREATED_FROM_DATE",
+                          label:"PROJECT_CREATED_FROM_DATE",
                           type: "date",
                           isMandatory: false,
                           disable: false,
@@ -136,7 +115,7 @@ const inboxConfig = () => {
                           },
                       },
                       {
-                          label:"WORKS_PROJECT_CREATED_TO_DATE",
+                          label:"CREATED_TO_DATE",
                           type: "date",
                           isMandatory: false,
                           disable: false,
@@ -149,42 +128,8 @@ const inboxConfig = () => {
                               keys: {start: 'createdFrom', end: 'createdTo'}
                           }
                       },
-                      {
-                          label: "ES_COMMON_CREATED_BY",
-                          type: "dropdown",
-                          isMandatory: false,
-                          disable: false,
-                          populators: {
-                            name: "createdBy",
-                            optionsKey: "name",
-                            optionsCustomStyle : {
-                              top : "2.3rem"
-                            },
-                            mdmsConfig: {
-                              masterName: "NatureOfWork",
-                              moduleName: "works",
-                              localePrefix: "COMMON_MASTERS"
-                            }
-                          }
-                      },
-                      {
-                          label: "ES_COMMON_STATUS",
-                          type: "dropdown",
-                          isMandatory: false,
-                          disable: false,
-                          populators: {
-                            name: "status",
-                            optionsKey: "name",
-                            optionsCustomStyle : {
-                              top : "2.3rem"
-                            },
-                            mdmsConfig: {
-                              masterName: "NatureOfWork",
-                              moduleName: "works",
-                              localePrefix: "COMMON_MASTERS"
-                            }
-                          }
-                      }
+    
+                      
                   ]
               },
               label : "ES_COMMON_FILTERS",

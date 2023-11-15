@@ -42,7 +42,7 @@ const searchConfig = () => {
                     "isMandatory": false,
                     "disable": false,
                     "populators": {
-                        "name": "id",
+                        "name": "projectNumber",
                         "error": "PROJECT_PATTERN_ERR_MSG",
                         "validation": {
                             "pattern": "/^[a-z0-9\/-]*$/i",
