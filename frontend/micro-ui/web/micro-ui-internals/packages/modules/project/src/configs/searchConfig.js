@@ -124,19 +124,19 @@ const searchConfig = () => {
                     },
                     "columns": [
                         {
-                            "label": "WORKS_PRJ_SUB_ID",
+                            "label": "PRJ_SUB_ID",
                             "jsonPath": "id",
                             "additionalCustomization": true
                         },
                         {
-                            "label": "WORKS_PROJECT_NAME",
+                            "label": "PROJECT_NAME",
                             "jsonPath": "name",
                             "maxLength": 20,
                             "additionalCustomization":true
                         },
                         
                         {
-                            "label": "WORKS_PROJECT_TYPE",
+                            "label": "PROJECT_TYPE",
                             "jsonPath": "projectType"
                         },
                         

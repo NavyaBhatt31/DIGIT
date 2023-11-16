@@ -42,6 +42,7 @@ const App = ({ path, stateCode, userType, tenants }) => {
         <PrivateRoute path={`${path}/search`} component={() => <Search></Search>} />
         <PrivateRoute path={`${path}/response`} component={() => <Response></Response>} />
         <PrivateRoute path={`${path}/view`} component={() => <View></View>} />
+        <PrivateRoute path={`${path}/create`} component={() => <></>} />
 
       </AppContainer>
     </Switch>

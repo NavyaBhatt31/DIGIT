@@ -79,8 +79,9 @@ const Search = () => {
   return (
     <React.Fragment>
       <div className=""search >
-        <Header className="Search">Project Search</Header>
+        <Header className="Search">Project Search, {t(inboxConfig?.label)}</Header>
         {/* {Digit.Utils.didEmployeeHasRole(configs?.actionRole)} */}
+        
       </div>
       <div className="inbox-search-wrapper">
         <InboxSearchComposer configs={inboxConfig}></InboxSearchComposer>

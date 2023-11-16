@@ -4,9 +4,8 @@ import { useRouteMatch } from "react-router-dom";
 import { default as EmployeeApp } from "./pages/employee";
 import projectCard from "./components/projectCard";
 import ViewEstimateComponent from "./components/ViewEstimateComponent";
-// import {Search} from "./pages/employee/Search";
-import Search from "./pages/employee/Search";
-import projInbox from "./pages/employee/projInbox";
+import DrugInbox from "./pages/employee/DrugInbox";
+import DrugSearch from "./pages/employee/DrugSearch";
 
 export const projectModule = ({ stateCode, userType, tenants }) => {
   const { path, url } = useRouteMatch();
@@ -30,8 +29,10 @@ const componentsToRegister = {
   projectCard,
   ProjectModule:projectModule,
   ProjectCard:projectCard,
-  Search,
-  projInbox,
+
+  // projInbox,
+  DrugInbox,
+  DrugSearch,
 
   ViewEstimatePage: ViewEstimateComponent,
 };
