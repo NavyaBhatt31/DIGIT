@@ -10,25 +10,20 @@ const DrugSearch = () => {
     const { t } = useTranslation();
     const history = useHistory();
     // const tenant = Digit.ULBService.getStateId();
-    const projectSession = Digit.Hooks.useSessionStorage("NEW_PROJECT_CREATE", {});
+    // const projectSession = Digit.Hooks.useSessionStorage("NEW_PROJECT_CREATE", {});
     // const [sessionFormData, clearSessionFormData] = projectSession;
     // const location = useLocation();
-    const { isLoading, data } = 
    
-    {
-      select: (data) => {
-          return data?.DrugSearchConfig;
-      },
-    }
 
-
-
-    if (isLoading) return <Loader />;
+const config= DrugSearchConfig()
+console.log(config)
+    // if (isLoading) return <Loader />;
     return (
         <React.Fragment>
-        <Header className="DrugSearch">{t(DrugSearchConfig?.label)}</Header>
+            <div>hello</div>
+        <Header className="DrugSearch">{t(config?.label)}</Header>
         <div className="inbox-search-wrapper">
-          <InboxSearchComposer configs={DrugSearchConfig}></InboxSearchComposer>
+          <InboxSearchComposer configs={config}></InboxSearchComposer>
         </div>
       </React.Fragment>
     );

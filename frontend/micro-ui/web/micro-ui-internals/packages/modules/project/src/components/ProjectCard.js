@@ -26,13 +26,13 @@ const projectCard = () => {
       
       {
         label: t("SEARCH_DRUG"),
-        link: `/${window?.contextPath}/employee/project/search-drug`,
+        link: `/${window?.contextPath}/employee/project/drugsearch`,
       },
 
       
       {
         label: t("DRUG_INBOX"),
-        link: `/${window?.contextPath}/employee/project/DrugInbox`,
+        link: `/${window?.contextPath}/employee/project/druginbox`,
       },
   
     ],

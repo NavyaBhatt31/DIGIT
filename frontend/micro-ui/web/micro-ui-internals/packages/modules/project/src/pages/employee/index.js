@@ -8,6 +8,7 @@ import Search from "./Search";
 // import AdvancedCreate from "./AdvancedForm";
 import Response from "./Response";
 import View from "./View";
+import DrugSearch from "./DrugSearch";
 
 
 const ProjectBreadCrumb = ({ location }) => {
@@ -42,7 +43,7 @@ const App = ({ path, stateCode, userType, tenants }) => {
         <PrivateRoute path={`${path}/search`} component={() => <Search></Search>} />
         <PrivateRoute path={`${path}/response`} component={() => <Response></Response>} />
         <PrivateRoute path={`${path}/view`} component={() => <View></View>} />
-        <PrivateRoute path={`${path}/create`} component={() => <></>} />
+        <PrivateRoute path={`${path}/drugsearch`} component={() => <DrugSearch></DrugSearch>} />
 
       </AppContainer>
     </Switch>

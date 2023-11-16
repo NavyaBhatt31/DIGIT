@@ -5,18 +5,29 @@ const DrugSearchConfig = () => {
       type: "search",
       apiDetails: {
         serviceName: "/product/v1/_search",
-        requestParam: {},
+        requestParam: {
+            limit:10,
+            offset:0,
+            tenantId:"mz"
+        },
         requestBody: {
-            Product: [
+            Product: 
                 {
                     
-                }
-            ],
+                },
+            
           apiOperation: "SEARCH",
-          limit:10,
-          offset:0,
-          tenantId:"mz"
+          limit:"",
+          offset:"",
+          tenantId:""
+          
         },
+        minParametersForSearchForm: 1,
+      masterName: "commonUiConfig",
+      moduleName: "SearchProductConfig",
+      tableFormJsonPath: "requestParam",
+      filterFormJsonPath: "requestBody.Product",
+      searchFormJsonPath: "requestBody.Product",
        
       },
       sections: {
