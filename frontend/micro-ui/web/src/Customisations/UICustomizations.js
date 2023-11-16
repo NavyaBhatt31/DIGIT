@@ -549,11 +549,11 @@ ProjectInboxConfig: {
 DrugInboxConfig: {
   preProcess: (data) => {
 
-    data.params = { ...data.params, tenantId: Digit.ULBService.getCurrentTenantId(), includeAncestors: true };
+    data.params = { ...data.params, tenantId: "mz", includeAncestors: true };
     let name = data.body.Product[0]?.name;
     name = name?.trim();
    
-    data.body.Product[0] = { ...data.body.Projects[0], tenantId: Digit.ULBService.getCurrentTenantId(), type, name, ids, manufacturer };
+    data.body.Product[0] = { ...data.body.Product[0], tenantId:"mz", type, name, ids, manufacturer };
 
     return data;
   },

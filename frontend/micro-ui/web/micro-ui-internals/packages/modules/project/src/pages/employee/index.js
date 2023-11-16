@@ -9,7 +9,7 @@ import Search from "./Search";
 import Response from "./Response";
 import View from "./View";
 import DrugSearch from "./DrugSearch";
-
+import DrugInbox from "./DrugInbox";
 
 const ProjectBreadCrumb = ({ location }) => {
   const { t } = useTranslation();
@@ -44,6 +44,7 @@ const App = ({ path, stateCode, userType, tenants }) => {
         <PrivateRoute path={`${path}/response`} component={() => <Response></Response>} />
         <PrivateRoute path={`${path}/view`} component={() => <View></View>} />
         <PrivateRoute path={`${path}/drugsearch`} component={() => <DrugSearch></DrugSearch>} />
+        <PrivateRoute path={`${path}/druginbox`} component={() => <DrugInbox></DrugInbox>} />
 
       </AppContainer>
     </Switch>

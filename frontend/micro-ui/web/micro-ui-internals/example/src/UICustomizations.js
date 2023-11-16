@@ -551,11 +551,11 @@ ProjectInboxConfig: {
 DrugInboxConfig: {
   preProcess: (data) => {
 
-    data.params = { ...data.params, tenantId: Digit.ULBService.getCurrentTenantId(), includeAncestors: true };
+    data.params = { ...data.params, tenantId: "mz", includeAncestors: true };
     let name = data.body.Product[0]?.name;
     name = name?.trim();
    
-    data.body.Product[0] = { ...data.body.Projects[0], tenantId: Digit.ULBService.getCurrentTenantId(), type, name, ids, manufacturer };
+    data.body.Product[0] = { ...data.body.Product[0], tenantId: "mz", type, name, ids, manufacturer };
 
     return data;
   },
@@ -567,7 +567,9 @@ DrugInboxConfig: {
     const tenantId = Digit.ULBService.getCurrentTenantId();
     const reqCriteria = {
       url: "/product/v1/_search",
-      params: {},
+      params: {limit:10,
+        offset:0,
+        tenantId:"mz"},
       body: { tenantId:"mz", pageSize: 100, uuid: [...uniqueUuids] },
       config: {
         enabled: responseArray?.length > 0 ? true : false,
@@ -592,28 +594,61 @@ DrugInboxConfig: {
     };
   },
   additionalCustomizations: (row, key, column, value, t, searchResult) => {
-    if (key === "DRUG_NAME") {
+
+    switch(key) {
+    case "DRUG_IDS": 
       return (
         <span className="link">
-          <Link to={`/${window.contextPath}/employee/project/DrugSearch?tenantId=${row?.tenantId}&Product=${value}`}>
+          <Link to={`/${window.contextPath}/employee/project/drugsearch?tenantId=${row?.tenantId}&Product=${value}`}>
           {String(value ? value : t("ES_COMMON_NA"))}
           </Link>
         </span>
       );
-    }
+      
+      
+      case "DRUG_NAME":
+        return (
+          <div class="tooltip">
+            <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
+              {String(t(value))}
+            </span>
+            {/* check condtion - if length greater than 20 */}
+            <span class="tooltiptext" style={{ whiteSpace: "nowrap" }}>
+              {String(t(value))}
+            </span>
+          </div>
+        );
 
-    if (key === "DRUG_IDS") {
-      return value ? (
-        <span className="link">
-          <Link to={`/${window.contextPath}/employee/project/DrugSearch?tenantId=${row?.tenantId}&Product=${value}`}>
-          {String(value ? value : t("ES_COMMON_NA"))}
-          </Link>
-        </span>
-      ) : (
-        t("ES_COMMON_NA")
-      );
-    }
-  },
+        
+      case "DRUG_MANUFACTURER":
+        return (
+          <div class="tooltip">
+            <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
+              {String(t(value))}
+            </span>
+            {/* check condtion - if length greater than 20 */}
+            <span class="tooltiptext" style={{ whiteSpace: "nowrap" }}>
+              {String(t(value))}
+            </span>
+          </div>
+        );
+      
+         
+        case "DRUG_TYPE":
+          return (
+            <div class="tooltip">
+              <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
+                {String(t(value))}
+              </span>
+              {/* check condtion - if length greater than 20 */}
+              <span class="tooltiptext" style={{ whiteSpace: "nowrap" }}>
+                {String(t(value))}
+              </span>
+            </div>
+          );
+
+  }
+},
   MobileDetailsOnClick: (row, tenantId) => {
     let link;
     Object.keys(row).map((key) => {
@@ -628,5 +663,4 @@ DrugInboxConfig: {
     }
   },
 },
-
 }

@@ -13,13 +13,18 @@ const DrugSearchConfig = () => {
         requestBody: {
             Product: 
                 {
-                    
+                    name: "",
+                    manufacturer: "",
+                    type: "",
+                    ids: [
+                        ""
+                    ],
                 },
             
           apiOperation: "SEARCH",
-          limit:"",
-          offset:"",
-          tenantId:""
+          limit:10,
+          offset:0,
+          tenantId:"mz"
           
         },
         minParametersForSearchForm: 1,
@@ -49,6 +54,7 @@ const DrugSearchConfig = () => {
             fields: [
              
               {
+                key:"DRUG_NAME",
                 label: "DRUG_NAME",
                 type: "text",
                 isMandatory: true,
@@ -64,8 +70,9 @@ const DrugSearchConfig = () => {
                    
                   },
                 },
-              },
+            },
               {
+                key:"DRUG_MANUFACTURER",
                 label: "DRUG_MANUFACTURER",
                 type: "text",
                 isMandatory: false,
@@ -83,6 +90,7 @@ const DrugSearchConfig = () => {
                 },
               },
               {
+                key:"DRUG_TYPE",
                 label: "DRUG_TYPE",
                 type: "text",
                 isMandatory: false,
@@ -100,6 +108,7 @@ const DrugSearchConfig = () => {
                 },
               },
               {
+                key:"DRUG_IDS",
                 label: "DRUG_IDS",
                 type: "text",
                 isMandatory: false,
@@ -116,7 +125,7 @@ const DrugSearchConfig = () => {
                   },
                 },
               }, 
-             
+            
              
             ],
           },
@@ -129,7 +138,7 @@ const DrugSearchConfig = () => {
           name: "",
           manufacturer: "",
           type: "",
-          ids: [
+          id: [
               ""
           ],
           uiConfig: {
@@ -137,21 +146,21 @@ const DrugSearchConfig = () => {
               {
                 label: "DRUG_NAME",
                 jsonPath: "name",
-                additionalCustomization: true,
+                
               },
               {
                 label: "DRUG_MANUFACTURER",
                 jsonPath: "manufacturer",
-                additionalCustomization: true,
+              
               },
               {
                 label: "DRUG_TYPE",
                 jsonPath: "type",
-                additionalCustomization: true,
+             
               },
               {
                 label: "DRUG_IDS",
-                jsonPath: "ids",
+                jsonPath: "id",
               },
              
             ],
