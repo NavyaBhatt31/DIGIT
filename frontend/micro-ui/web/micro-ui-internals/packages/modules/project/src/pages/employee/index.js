@@ -3,13 +3,17 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Switch } from "react-router-dom";
 import Create from "./proj";
-import projInbox from "./projInbox";
+// import projInbox from "./projInbox";
 import Search from "./Search";
 // import AdvancedCreate from "./AdvancedForm";
 import Response from "./Response";
 import View from "./View";
 import DrugSearch from "./DrugSearch";
-import DrugInbox from "./DrugInbox";
+import SearchProductVar from "./SearchProductVar";
+import SearchHousehold from "./SearchHousehold";
+import SearchTask from "./SearchTask";
+import SearchBeneficiary from "./SearchBeneficiary";
+import SearchProjectStaff from "./SearchProjectStaff";
 
 const ProjectBreadCrumb = ({ location }) => {
   const { t } = useTranslation();
@@ -44,7 +48,13 @@ const App = ({ path, stateCode, userType, tenants }) => {
         <PrivateRoute path={`${path}/response`} component={() => <Response></Response>} />
         <PrivateRoute path={`${path}/view`} component={() => <View></View>} />
         <PrivateRoute path={`${path}/drugsearch`} component={() => <DrugSearch></DrugSearch>} />
-        <PrivateRoute path={`${path}/druginbox`} component={() => <DrugInbox></DrugInbox>} />
+        <PrivateRoute path={`${path}/searchproductvar`} component={() => <SearchProductVar></SearchProductVar>} />
+        <PrivateRoute path={`${path}/searchhousehold`} component={() => <SearchHousehold></SearchHousehold>} />
+        <PrivateRoute path={`${path}/searchtask`} component={() => <SearchTask></SearchTask>} />
+        <PrivateRoute path={`${path}/searchbeneficiary`} component={() => <SearchBeneficiary></SearchBeneficiary>} />
+        <PrivateRoute path={`${path}/searchprojectstaff`} component={() => <SearchProjectStaff></SearchProjectStaff>} />
+
+
 
       </AppContainer>
     </Switch>

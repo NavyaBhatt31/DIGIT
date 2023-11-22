@@ -427,106 +427,106 @@ export const UICustomizations = {
       }
     }
   },
-  SearchProjectConfig: {
-    customValidationCheck: (data) => {
-      //checking both to and from date are present
-      const { createdFrom, createdTo } = data;
-      if ((createdFrom === "" && createdTo !== "") || (createdFrom !== "" && createdTo === ""))
-        return { warning: true, label: "ES_COMMON_ENTER_DATE_RANGE" };
+  // SearchProjectConfig: {
+  //   customValidationCheck: (data) => {
+  //     //checking both to and from date are present
+  //     const { createdFrom, createdTo } = data;
+  //     if ((createdFrom === "" && createdTo !== "") || (createdFrom !== "" && createdTo === ""))
+  //       return { warning: true, label: "ES_COMMON_ENTER_DATE_RANGE" };
 
-      return false;
-    },
-    preProcess: (data) => {
+  //     return false;
+  //   },
+  //   preProcess: (data) => {
   
-      const projectType = data.body.Projects[0]?.projectType?.code;
-      data.params = { ...data.params, tenantId: Digit.ULBService.getCurrentTenantId(), includeAncestors: true, createdFrom, createdTo };
+  //     const projectType = data.body.Projects[0]?.projectType?.code;
+  //     data.params = { ...data.params, tenantId: Digit.ULBService.getCurrentTenantId(), includeAncestors: true, createdFrom, createdTo };
 
-      let name = data.body.Projects[0]?.name;
-      name = name?.trim();
-      delete data.body.Projects[0]?.createdFrom;
-      delete data.body.Projects[0]?.createdTo;
-      data.body.Projects[0] = { ...data.body.Projects[0], tenantId: Digit.ULBService.getCurrentTenantId(), projectType, name };
+  //     let name = data.body.Projects[0]?.name;
+  //     name = name?.trim();
+  //     delete data.body.Projects[0]?.createdFrom;
+  //     delete data.body.Projects[0]?.createdTo;
+  //     data.body.Projects[0] = { ...data.body.Projects[0], tenantId: Digit.ULBService.getCurrentTenantId(), projectType, name };
      
-      const dateConfig = {
-        createdFrom: "daystart",
-        createdTo: "dayend",
-      };
+  //     const dateConfig = {
+  //       createdFrom: "daystart",
+  //       createdTo: "dayend",
+  //     };
 
-      const selectConfig = {
-        wardCode: "wardCode[0].code",
-        socialCategory: "socialCategory.code",
-      };
-      const textConfig = ["name", "individualId"]
-      let Projects = Object.keys(requestBody)
-        .map((key) => {
-          if (selectConfig[key]) {
-            requestBody[key] = _.get(requestBody, selectConfig[key], null);
-          } else if (typeof requestBody[key] == "object") {
-            requestBody[key] = requestBody[key]?.code;
-          } else if (textConfig?.includes(key)) {
-            requestBody[key] = requestBody[key]?.trim()
-          }
-          return key;
-        })
-        .filter((key) => requestBody[key])
+  //     const selectConfig = {
+  //       wardCode: "wardCode[0].code",
+  //       socialCategory: "socialCategory.code",
+  //     };
+  //     const textConfig = ["name", "individualId"]
+  //     let Projects = Object.keys(requestBody)
+  //       .map((key) => {
+  //         if (selectConfig[key]) {
+  //           requestBody[key] = _.get(requestBody, selectConfig[key], null);
+  //         } else if (typeof requestBody[key] == "object") {
+  //           requestBody[key] = requestBody[key]?.code;
+  //         } else if (textConfig?.includes(key)) {
+  //           requestBody[key] = requestBody[key]?.trim()
+  //         }
+  //         return key;
+  //       })
+  //       .filter((key) => requestBody[key])
 
-        .reduce((acc, curr) => {
-          if (pathConfig[curr]) {
-            _.set(acc, pathConfig[curr], requestBody[curr]);
-          } else if (dateConfig[curr] && dateConfig[curr]?.includes("day")) {
-            _.set(acc, curr, Digit.Utils.date.convertDateToEpoch(requestBody[curr], dateConfig[curr]));
-          } else {
-            _.set(acc, curr, requestBody[curr]);
-          }
-          return acc;
-        }, 
+  //       .reduce((acc, curr) => {
+  //         if (pathConfig[curr]) {
+  //           _.set(acc, pathConfig[curr], requestBody[curr]);
+  //         } else if (dateConfig[curr] && dateConfig[curr]?.includes("day")) {
+  //           _.set(acc, curr, Digit.Utils.date.convertDateToEpoch(requestBody[curr], dateConfig[curr]));
+  //         } else {
+  //           _.set(acc, curr, requestBody[curr]);
+  //         }
+  //         return acc;
+  //       }, 
 
-        )
-      return data;
-      },
-        additionalCustomizations: (_row, _key, _column, _value, _t, ) => {
-          switch(key){
+  //       )
+  //     return data;
+  //     },
+  //       additionalCustomizations: (_row, _key, _column, _value, _t, ) => {
+  //         switch(key){
       
-        case "PRJ_SUB_ID": {
-          return (
-            <span className="link">
-              <Link to={`/${window.contextPath}/employee/project/project-details?tenantId=${row?.tenantId}&projectNumber=${value}`}>
-              {String(value ? value : t("ES_COMMON_NA"))}
-              </Link>
-            </span>
-          );
-        }
+  //       case "PRJ_SUB_ID": {
+  //         return (
+  //           <span className="link">
+  //             <Link to={`/${window.contextPath}/employee/project/project-details?tenantId=${row?.tenantId}&projectNumber=${value}`}>
+  //             {String(value ? value : t("ES_COMMON_NA"))}
+  //             </Link>
+  //           </span>
+  //         );
+  //       }
   
-        case "PROJECT_ID": 
-          return value ? (
-            <span className="link">
-              <Link to={`/${window.contextPath}/employee/project/project-details?tenantId=${row.tenantId}&projectNumber=${value}`}>
-              {String(value ? value : t("ES_COMMON_NA"))}
-              </Link>
-            </span>
-          ) : (
-            t("ES_COMMON_NA")
-          );
+  //       case "PROJECT_ID": 
+  //         return value ? (
+  //           <span className="link">
+  //             <Link to={`/${window.contextPath}/employee/project/project-details?tenantId=${row.tenantId}&projectNumber=${value}`}>
+  //             {String(value ? value : t("ES_COMMON_NA"))}
+  //             </Link>
+  //           </span>
+  //         ) : (
+  //           t("ES_COMMON_NA")
+  //         );
         
   
-        case "PROJECT_NAME": {
-          return (
-            <div class="tooltip">
-              <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
-                {String(t(value))}
-              </span>
-              {/* check condtion - if length greater than 20 */}
-              <span class="tooltiptext" style={{ whiteSpace: "nowrap" }}>
-                {String(t(value))}
-              </span>
-            </div>
-          )
-        }
+  //       case "PROJECT_NAME": {
+  //         return (
+  //           <div class="tooltip">
+  //             <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
+  //               {String(t(value))}
+  //             </span>
+  //             {/* check condtion - if length greater than 20 */}
+  //             <span class="tooltiptext" style={{ whiteSpace: "nowrap" }}>
+  //               {String(t(value))}
+  //             </span>
+  //           </div>
+  //         )
+  //       }
         
-          }  
-      },
+  //         }  
+  //     },
       
-    },
+  //   },
       
 
 ProjectInboxConfig: {
@@ -548,37 +548,50 @@ ProjectInboxConfig: {
   }
 },
 
-DrugInboxConfig: {
+SearchTaskConfig:  
+{
   preProcess: (data) => {
+    const plannedStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.plannedStartDate, "daystart");
+    const plannedEndDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.plannedEndDate);
+    const actualStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.actualStartDate, "dayactualstart");
+    const actualEndDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.actualEndDate);
+    // const projectType = data.body.Projects[0]?.projectType?.code;
+    // const ward = data.body.Projects[0]?.ward?.[0]?.code;
+    data.params = { ...data.params, tenantId: "mz", includeDeleted: true, plannedStartDate, plannedEndDate, actualStartDate, actualEndDate };
+    let id = data.body.Task[0]?.id?.trim();
+    let clientReferenceId = data.body.Task[0]?.clientReferenceId?.trim()
+    let projectId = data.body.Task[0]?.projectId?.trim();
+    let projectBeneficiaryId = data.body.Task[0]?.projectBeneficiaryId?.trim();
+    let localityCode = data.body.Task[0]?.localityCode?.trim();
+    let status = data.body.Task[0]?.status?.trim();
+    debugger;
 
-    data.params = { ...data.params, tenantId: "mz", includeAncestors: true };
-    let name = data.body.Product[0]?.name;
-    name = name?.trim();
+    delete data.body.Task[0]?.plannedStartDate;
+    delete data.body.Task[0]?.plannedEndDate;
+    delete data.body.Task[0]?.actualStartDate;
+    delete data.body.Task[0]?.actualEndDate;
    
-    data.body.Product[0] = { ...data.body.Product[0], tenantId: "mz", type, name, ids, manufacturer };
-
+    data.body.Task[0] = { ...data.body.Task[0],id, clientReferenceId, projectId, projectBeneficiaryId, localityCode, status };
     return data;
   },
   postProcess: (responseArray) => {
-    const listOfUuids = responseArray?.map((row) => row.auditDetails.ids);
-    const uniqueUuids = listOfUuids?.filter(function (ids, i, ar) {
-      return ar.indexOf(ids) === i;
+    const listOfUuids = responseArray?.map((row) => row.auditDetails.createdBy);
+    const uniqueUuids = listOfUuids?.filter(function (item, i, ar) {
+      return ar.indexOf(item) === i;
     });
-    const tenantId = Digit.ULBService.getCurrentTenantId();
+    const tenantId = "mz";
     const reqCriteria = {
-      url: "/product/v1/_search",
-      params: {limit:10,
-        offset:0,
-        tenantId:"mz"},
-      body: { tenantId:"mz", pageSize: 100, uuid: [...uniqueUuids] },
+      url: "/user/_search",
+      params: {},
+      body: { tenantId, pageSize: 100, uuid: [...uniqueUuids] },
       config: {
         enabled: responseArray?.length > 0 ? true : false,
         select: (data) => {
           const usersResponse = data?.user;
           responseArray?.forEach((row) => {
-            const uuid = row?.auditDetails?.ids;
+            const uuid = row?.auditDetails?.createdBy;
             const user = usersResponse?.filter((user) => user.uuid === uuid);
-            row.ids = user?.[0].name;
+            row.createdBy = user?.[0].id;
           });
           return responseArray;
         },
@@ -593,74 +606,21 @@ DrugInboxConfig: {
       combinedResponse,
     };
   },
-  additionalCustomizations: (row, key, column, value, t, searchResult) => {
+  customValidationCheck: (data) => {
+    const { plannedStartDate, plannedEndDate} = data;
+    if ((plannedStartDate === "" && plannedEndDate !== "") || (plannedStartDate !== "" && plannedEndDate === ""))
+    return { warning: true, label: "ES_COMMON_ENTER_DATE_RANGE_PLANNED" };
+  
+    const { actualStartDate, actualEndDate } = data;
+   if ((actualStartDate === "" && actualEndDate !== "") || (actualStartDate !== "" && actualEndDate === ""))
+    return { warning: true, label: "ES_COMMON_ENTER_DATE_RANGE_ACTUAL" };
 
-    switch(key) {
-    case "DRUG_IDS": 
-      return (
-        <span className="link">
-          <Link to={`/${window.contextPath}/employee/project/drugsearch?tenantId=${row?.tenantId}&Product=${value}`}>
-          {String(value ? value : t("ES_COMMON_NA"))}
-          </Link>
-        </span>
-      );
-      
-      
-      case "DRUG_NAME":
-        return (
-          <div class="tooltip">
-            <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
-              {String(t(value))}
-            </span>
-            {/* check condtion - if length greater than 20 */}
-            <span class="tooltiptext" style={{ whiteSpace: "nowrap" }}>
-              {String(t(value))}
-            </span>
-          </div>
-        );
-
-        
-      case "DRUG_MANUFACTURER":
-        return (
-          <div class="tooltip">
-            <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
-              {String(t(value))}
-            </span>
-            {/* check condtion - if length greater than 20 */}
-            <span class="tooltiptext" style={{ whiteSpace: "nowrap" }}>
-              {String(t(value))}
-            </span>
-          </div>
-        );
-      
-         
-        case "DRUG_TYPE":
-          return (
-            <div class="tooltip">
-              <span class="textoverflow" style={{ "--max-width": `${column?.maxlength}ch` }}>
-                {String(t(value))}
-              </span>
-              {/* check condtion - if length greater than 20 */}
-              <span class="tooltiptext" style={{ whiteSpace: "nowrap" }}>
-                {String(t(value))}
-              </span>
-            </div>
-          );
-
-  }
-},
-  MobileDetailsOnClick: (row, tenantId) => {
-    let link;
-    Object.keys(row).map((key) => {
-      if (key === "WORKS_PRJ_SUB_ID")
-        link = `/${window.contextPath}/employee/project/project-details?tenantId=${tenantId}&projectNumber=${row[key]}`;
-    });
-    return link;
+    return false;
   },
-  additionalValidations: (type, data, keys) => {
-    if (type === "date") {
-      return data[keys.start] && data[keys.end] ? () => new Date(data[keys.start]).getTime() < new Date(data[keys.end]).getTime() : true;
-    }
-  },
+  
+ 
 },
+
 }
+
+

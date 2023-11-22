@@ -1,38 +1,40 @@
 
-const DrugSearchConfig = () => {
+const SearchHouseholdConfig = () => {
     return {
-      label: "SEARCH_DRUG",
+      label: "SEARCH_HOUSEHOLD",
       type: "search",
       apiDetails: {
-        serviceName: "/product/v1/_search",
+        serviceName: "/household/v1/_search",
+       
         requestParam: {
             limit:10,
             offset:0,
-            tenantId:"mz"
+            tenantId:"mz",
+            includeDeleted: true,
         },
         requestBody: {
-            Product: 
-                {
-                    name: "",
-                    manufacturer: "",
-                    type: "",
-                    ids: [
-                        ""
-                    ],
-                },
+            tenantId:"mz",
+            Household: 
+            {
+                id:  "" ,
+                clientReferenceId: "",
+                boundaryCode: "",
+                // tenantId:"mz"
+                
+            },
             
-          apiOperation: "SEARCH",
-          limit:10,
-          offset:0,
-          tenantId:"mz"
+        //   apiOperation: "SEARCH",
+        //   limit:10,
+        //   offset:0,
+        //   tenantId:"mz"
           
         },
         minParametersForSearchForm: 0,
       masterName: "commonUiConfig",
-      moduleName: "SearchProductConfig",
+      moduleName: "SearchHouseholdConfig",
       tableFormJsonPath: "requestParam",
-      filterFormJsonPath: "requestBody.Product",
-      searchFormJsonPath: "requestBody.Product",
+      filterFormJsonPath: "requestBody.Household",
+      searchFormJsonPath: "requestBody.Household",
        
       },
       sections: {
@@ -41,21 +43,20 @@ const DrugSearchConfig = () => {
             headerStyle: null,
             primaryLabel: "ES_COMMON_SEARCH",
             secondaryLabel: "ES_COMMON_CLEAR_SEARCH",
-            minReqFields: 1,
+            minReqFields: 0,
             formClassName: "custom-both-clear-search",
             defaultValues:  {
-                name: "",
-                manufacturer: "",
-                type: "",
-                ids: [
-                    ""
-                ]
+               
+                id:  "" ,
+                clientReferenceId: "",
+                boundaryCode: ""
+                
             },
             fields: [
              
               {
-                key:"DRUG_NAME",
-                label: "DRUG_NAME",
+                key:"CLIENT_ID",
+                label: "CLIENT_ID",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -63,17 +64,17 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "name",
+                  name: "id",
                   error: "PROJECT_PATTERN_ERR_MSG",
                   validation: {
-                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
+                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,100}$',
                    
                   },
                 },
             },
               {
-                key:"DRUG_MANUFACTURER",
-                label: "DRUG_MANUFACTURER",
+                key:"CLIENT_REF_ID",
+                label: "CLIENT_REF_ID",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -81,17 +82,17 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "manufacturer",
+                  name: "clientReferenceId",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
-                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
+                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,100}$',
                     
                   },
                 },
               },
               {
-                key:"DRUG_TYPE",
-                label: "DRUG_TYPE",
+                key:"BOUNDARY_CODE",
+                label: "BOUNDARY_CODE",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -99,32 +100,15 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "type",
+                  name: "boundaryCode",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
-                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
+                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,100}$',
                     
                   },
                 },
               },
-              {
-                key:"DRUG_IDS",
-                label: "DRUG_IDS",
-                type: "text",
-                isMandatory: false,
-                disable: false,
-                preProcess: {
-                  convertStringToRegEx: ["populators.validation.pattern"],
-                },
-                populators: {
-                  name: "ids",
-                  error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
-                  validation: {
-                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
-                    
-                  },
-                },
-              }, 
+              
             
              
             ],
@@ -134,34 +118,30 @@ const DrugSearchConfig = () => {
           show: true,
         },
         searchResult: {
-          label: "",
+          label: "Household",
          
           uiConfig: {
             columns: [
               {
-                label: "DRUG_NAME",
-                jsonPath: "name",
+                label: "CLIENT_ID",
+                jsonPath: "id",
                 
               },
               {
-                label: "DRUG_MANUFACTURER",
-                jsonPath: "manufacturer",
+                label: "CLIENT_REF_ID",
+                jsonPath: "clientReferenceId",
               
               },
               {
-                label: "DRUG_TYPE",
-                jsonPath: "type",
+                label: "BOUNDARY_CODE",
+                jsonPath: "boundaryCode",
              
-              },
-              {
-                label: "DRUG_IDS",
-                jsonPath: "id",
               },
              
             ],
             enableGlobalSearch: false,
             enableColumnSort: true,
-            resultsJsonPath: "Product",
+            resultsJsonPath: "Household",
           },
           children: {},
           show: true,
@@ -171,4 +151,4 @@ const DrugSearchConfig = () => {
     };
 }
 
-export default DrugSearchConfig;
+export default SearchHouseholdConfig;

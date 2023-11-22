@@ -1,38 +1,40 @@
 
-const DrugSearchConfig = () => {
+const SearchProductVarConfig = () => {
     return {
-      label: "SEARCH_DRUG",
+      label: "SEARCH_PRODUCT_VAR",
       type: "search",
       apiDetails: {
-        serviceName: "/product/v1/_search",
+        serviceName: "/product/variant/v1/_search",
+       
         requestParam: {
             limit:10,
             offset:0,
             tenantId:"mz"
+            
         },
         requestBody: {
-            Product: 
-                {
-                    name: "",
-                    manufacturer: "",
-                    type: "",
-                    ids: [
-                        ""
-                    ],
-                },
+            tenantId:"mz",
+            ProductVariant: 
+            {
+                sku: "",
+                variation: "",
+                ids: [ "" ],
+                productId: ""
+                
+            },
             
-          apiOperation: "SEARCH",
-          limit:10,
-          offset:0,
-          tenantId:"mz"
+        //   apiOperation: "SEARCH",
+        //   limit:10,
+        //   offset:0,
+        //   tenantId:"mz"
           
         },
         minParametersForSearchForm: 0,
       masterName: "commonUiConfig",
-      moduleName: "SearchProductConfig",
+      moduleName: "SearchProductVariantConfig",
       tableFormJsonPath: "requestParam",
-      filterFormJsonPath: "requestBody.Product",
-      searchFormJsonPath: "requestBody.Product",
+      filterFormJsonPath: "requestBody.ProductVariant",
+      searchFormJsonPath: "requestBody.ProductVariant",
        
       },
       sections: {
@@ -44,18 +46,16 @@ const DrugSearchConfig = () => {
             minReqFields: 1,
             formClassName: "custom-both-clear-search",
             defaultValues:  {
-                name: "",
-                manufacturer: "",
-                type: "",
-                ids: [
-                    ""
-                ]
+                sku: "",
+                variation: "",
+                ids: [ "" ],
+                productId: ""
             },
             fields: [
              
               {
-                key:"DRUG_NAME",
-                label: "DRUG_NAME",
+                key:"PRODUCT_SKU",
+                label: "PRODUCT_SKU",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -63,17 +63,17 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "name",
+                  name: "sku",
                   error: "PROJECT_PATTERN_ERR_MSG",
                   validation: {
-                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
+                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,100}$',
                    
                   },
                 },
             },
               {
-                key:"DRUG_MANUFACTURER",
-                label: "DRUG_MANUFACTURER",
+                key:"PRODUCT_VARIATION",
+                label: "PRODUCT_VARIATION",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -81,35 +81,17 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "manufacturer",
+                  name: "variation",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
-                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
+                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,100}$',
                     
                   },
                 },
               },
               {
-                key:"DRUG_TYPE",
-                label: "DRUG_TYPE",
-                type: "text",
-                isMandatory: false,
-                disable: false,
-                preProcess: {
-                  convertStringToRegEx: ["populators.validation.pattern"],
-                },
-                populators: {
-                  name: "type",
-                  error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
-                  validation: {
-                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
-                    
-                  },
-                },
-              },
-              {
-                key:"DRUG_IDS",
-                label: "DRUG_IDS",
+                key:"PRODUCT_IDS",
+                label: "PRODUCT_IDS",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -120,7 +102,25 @@ const DrugSearchConfig = () => {
                   name: "ids",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
-                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
+                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,100}$',
+                    
+                  },
+                },
+              },
+              {
+                key:"PRODUCT_ID",
+                label: "PRODUCT_ID",
+                type: "text",
+                isMandatory: false,
+                disable: false,
+                preProcess: {
+                  convertStringToRegEx: ["populators.validation.pattern"],
+                },
+                populators: {
+                  name: "productId",
+                  error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
+                  validation: {
+                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,100}$',
                     
                   },
                 },
@@ -134,34 +134,34 @@ const DrugSearchConfig = () => {
           show: true,
         },
         searchResult: {
-          label: "",
+          label: "ProductVariant",
          
           uiConfig: {
             columns: [
               {
-                label: "DRUG_NAME",
-                jsonPath: "name",
+                label: "PRODUCT_SKU",
+                jsonPath: "sku",
                 
               },
               {
-                label: "DRUG_MANUFACTURER",
-                jsonPath: "manufacturer",
+                label: "PRODUCT_VARIATION",
+                jsonPath: "variation",
               
               },
               {
-                label: "DRUG_TYPE",
-                jsonPath: "type",
+                label: "PRODUCT_IDS",
+                jsonPath: "ids",
              
               },
               {
-                label: "DRUG_IDS",
-                jsonPath: "id",
+                label: "PRODUCT_ID",
+                jsonPath: "productId",
               },
              
             ],
             enableGlobalSearch: false,
             enableColumnSort: true,
-            resultsJsonPath: "Product",
+            resultsJsonPath: "ProductVariant",
           },
           children: {},
           show: true,
@@ -171,4 +171,4 @@ const DrugSearchConfig = () => {
     };
 }
 
-export default DrugSearchConfig;
+export default SearchProductVarConfig;

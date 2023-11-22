@@ -2,15 +2,14 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Header, InboxSearchComposer } from "@egovernments/digit-ui-react-components";
 import { useHistory } from "react-router-dom";
-import DrugSearchConfig from "../../configs/DrugSearchConfig";
+import SearchBeneficiaryConfig from "../../configs/SearchBeneficiaryConfig";
 
-
-const DrugSearch = () => {
+const SearchBeneficiary = () => {
   
     const { t } = useTranslation();
     const history = useHistory();
       
-    const config= DrugSearchConfig()
+    const config= SearchBeneficiaryConfig()
     console.log(config)
     
     return (
@@ -23,5 +22,5 @@ const DrugSearch = () => {
       </React.Fragment>
     );
   };
-export default DrugSearch;
+export default SearchBeneficiary;
 

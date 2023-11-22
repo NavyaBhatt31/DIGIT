@@ -4,8 +4,13 @@ import { useRouteMatch } from "react-router-dom";
 import { default as EmployeeApp } from "./pages/employee";
 import projectCard from "./components/projectCard";
 import ViewEstimateComponent from "./components/ViewEstimateComponent";
-import DrugInbox from "./pages/employee/DrugInbox";
 import DrugSearch from "./pages/employee/DrugSearch";
+import SearchProductVar from "./pages/employee/SearchProductVar";
+import SearchHousehold from "./pages/employee/SearchHousehold";
+import SearchTask from "./pages/employee/SearchTask";
+import SearchBeneficiary from "./pages/employee/SearchBeneficiary";
+import SearchProjectStaff from "./pages/employee/SearchProjectStaff";
+import Search from "./pages/employee/Search";
 
 export const projectModule = ({ stateCode, userType, tenants }) => {
   const { path, url } = useRouteMatch();
@@ -29,12 +34,14 @@ const componentsToRegister = {
   projectCard,
   ProjectModule:projectModule,
   ProjectCard:projectCard,
-
-  // projInbox,
-  DrugInbox,
   DrugSearch,
-
   ViewEstimatePage: ViewEstimateComponent,
+  SearchProductVar,
+  SearchHousehold,
+  SearchTask,
+  SearchBeneficiary,
+  SearchProjectStaff,
+  Search
 };
 //init <modulename >component
 export const initprojectComponents = () => {

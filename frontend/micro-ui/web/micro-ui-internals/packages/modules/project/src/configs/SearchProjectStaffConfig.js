@@ -1,38 +1,37 @@
 
-const DrugSearchConfig = () => {
+const SearchProjectStaffConfig = () => {
     return {
-      label: "SEARCH_DRUG",
+      label: "SEARCH_PROJECT_STAFF",
       type: "search",
       apiDetails: {
-        serviceName: "/product/v1/_search",
+        serviceName: "/project/staff/v1/_search",
         requestParam: {
-            limit:10,
+            limit:100,
             offset:0,
             tenantId:"mz"
         },
         requestBody: {
-            Product: 
-                {
-                    name: "",
-                    manufacturer: "",
-                    type: "",
-                    ids: [
-                        ""
-                    ],
-                },
-            
-          apiOperation: "SEARCH",
-          limit:10,
-          offset:0,
+            ProjectStaff: {
+                id: [
+                    ""
+                ],
+                userId: "",
+                projectId: "",
+                startDate: "",
+                endDate: ""
+            },
+        //   apiOperation: "SEARCH",
+        //   limit:100,
+        //   offset:0,
           tenantId:"mz"
           
         },
-        minParametersForSearchForm: 0,
+        minParametersForSearchForm: 1,
       masterName: "commonUiConfig",
-      moduleName: "SearchProductConfig",
+      moduleName: "SearchProjectStaffConfig",
       tableFormJsonPath: "requestParam",
-      filterFormJsonPath: "requestBody.Product",
-      searchFormJsonPath: "requestBody.Product",
+      filterFormJsonPath: "requestBody.ProjectStaff",
+      searchFormJsonPath: "requestBody.ProjectStaff",
        
       },
       sections: {
@@ -44,18 +43,19 @@ const DrugSearchConfig = () => {
             minReqFields: 1,
             formClassName: "custom-both-clear-search",
             defaultValues:  {
-                name: "",
-                manufacturer: "",
-                type: "",
-                ids: [
+                id: [
                     ""
-                ]
+                ],
+                userId: "",
+                projectId: "",
+                startDate: "",
+                endDate: ""
             },
             fields: [
              
               {
-                key:"DRUG_NAME",
-                label: "DRUG_NAME",
+                key:"ID",
+                label: "ID",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -63,7 +63,7 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "name",
+                  name: "id",
                   error: "PROJECT_PATTERN_ERR_MSG",
                   validation: {
                     pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
@@ -72,8 +72,8 @@ const DrugSearchConfig = () => {
                 },
             },
               {
-                key:"DRUG_MANUFACTURER",
-                label: "DRUG_MANUFACTURER",
+                key:"USER_ID",
+                label: "USER_ID",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -81,7 +81,7 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "manufacturer",
+                  name: "userId",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
                     pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
@@ -90,8 +90,8 @@ const DrugSearchConfig = () => {
                 },
               },
               {
-                key:"DRUG_TYPE",
-                label: "DRUG_TYPE",
+                key:"PROJECT_ID",
+                label: "PROJECT_ID",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -99,7 +99,7 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "type",
+                  name: "projectId",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
                     pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
@@ -108,23 +108,35 @@ const DrugSearchConfig = () => {
                 },
               },
               {
-                key:"DRUG_IDS",
-                label: "DRUG_IDS",
-                type: "text",
+                key:"START_DATE",
+                label: "START_DATE",
+                type: "date",
                 isMandatory: false,
                 disable: false,
-                preProcess: {
-                  convertStringToRegEx: ["populators.validation.pattern"],
-                },
                 populators: {
-                  name: "ids",
+                  name: "startDate",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
-                    pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
-                    
+                    // required:true
+                  },
+                },
+              },
+              {
+                key:"END_DATE",
+                label: "END_DATE",
+                type: "date",
+                isMandatory: false,
+                disable: false,
+               
+                populators: {
+                  name: "endDate",
+                  error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
+                  validation: {
+                    // required:true
                   },
                 },
               }, 
+             
             
              
             ],
@@ -139,29 +151,33 @@ const DrugSearchConfig = () => {
           uiConfig: {
             columns: [
               {
-                label: "DRUG_NAME",
-                jsonPath: "name",
+                label: "ID",
+                jsonPath: "id",
                 
               },
               {
-                label: "DRUG_MANUFACTURER",
-                jsonPath: "manufacturer",
+                label: "USER_ID",
+                jsonPath: "userId",
               
               },
               {
-                label: "DRUG_TYPE",
-                jsonPath: "type",
+                label: "PROJECT_ID",
+                jsonPath: "projectId",
              
               },
               {
-                label: "DRUG_IDS",
-                jsonPath: "id",
+                label: "START_DATE",
+                jsonPath: "startDate",
+              },
+              {
+                label: "END_DATE",
+                jsonPath: "endDate",
               },
              
             ],
             enableGlobalSearch: false,
             enableColumnSort: true,
-            resultsJsonPath: "Product",
+            resultsJsonPath: "ProjectStaff",
           },
           children: {},
           show: true,
@@ -171,4 +187,4 @@ const DrugSearchConfig = () => {
     };
 }
 
-export default DrugSearchConfig;
+export default SearchProjectStaffConfig;

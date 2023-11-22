@@ -1,38 +1,42 @@
 
-const DrugSearchConfig = () => {
+const SearchBeneficiaryConfig = () => {
     return {
-      label: "SEARCH_DRUG",
+      label: "SEARCH_BENEFICIARY",
       type: "search",
       apiDetails: {
-        serviceName: "/product/v1/_search",
+        serviceName: "project/beneficiary/v1/_search",
         requestParam: {
-            limit:10,
+            limit:100,
             offset:0,
             tenantId:"mz"
         },
         requestBody: {
-            Product: 
-                {
-                    name: "",
-                    manufacturer: "",
-                    type: "",
-                    ids: [
+            
+                ProjectBeneficiary: {
+                    id: [
                         ""
                     ],
+                    clientReferenceId: [
+                        ""
+                    ],
+                    projectId: "",
+                    beneficiaryId: "",
+                    dateOfRegistration: ""
                 },
-            
-          apiOperation: "SEARCH",
-          limit:10,
-          offset:0,
-          tenantId:"mz"
-          
-        },
-        minParametersForSearchForm: 0,
+                        
+                    // apiOperation: "SEARCH",
+                    limit:100,
+                    offset:0,
+                    tenantId:"mz",
+                    includeDeleted:true
+                    
+                    },
+        minParametersForSearchForm: 1,
       masterName: "commonUiConfig",
-      moduleName: "SearchProductConfig",
+      moduleName: "SearchProjectBeneficiaryConfig",
       tableFormJsonPath: "requestParam",
-      filterFormJsonPath: "requestBody.Product",
-      searchFormJsonPath: "requestBody.Product",
+      filterFormJsonPath: "requestBody.ProjectBeneficiary",
+      searchFormJsonPath: "requestBody.ProjectBeneficiary",
        
       },
       sections: {
@@ -44,26 +48,29 @@ const DrugSearchConfig = () => {
             minReqFields: 1,
             formClassName: "custom-both-clear-search",
             defaultValues:  {
-                name: "",
-                manufacturer: "",
-                type: "",
-                ids: [
-                    ""
-                ]
+              id: [
+                ""
+            ],
+            clientReferenceId: [
+                ""
+            ],
+            projectId: "",
+            beneficiaryId: "",
+            dateOfRegistration: ""
             },
             fields: [
              
               {
-                key:"DRUG_NAME",
-                label: "DRUG_NAME",
+                key:"ID",
+                label: "ID",
                 type: "text",
-                isMandatory: false,
+                isMandatory: true,
                 disable: false,
                 preProcess: {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "name",
+                  name: "id",
                   error: "PROJECT_PATTERN_ERR_MSG",
                   validation: {
                     pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
@@ -72,8 +79,8 @@ const DrugSearchConfig = () => {
                 },
             },
               {
-                key:"DRUG_MANUFACTURER",
-                label: "DRUG_MANUFACTURER",
+                key:"CLIENT_REFERENCE_ID",
+                label: "CLIENT_REFERENCE_ID",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -81,7 +88,7 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "manufacturer",
+                  name: "clientReferenceId",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
                     pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
@@ -90,8 +97,8 @@ const DrugSearchConfig = () => {
                 },
               },
               {
-                key:"DRUG_TYPE",
-                label: "DRUG_TYPE",
+                key:"PROJECT_ID",
+                label: "PROJECT_ID",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -99,7 +106,7 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "type",
+                  name: "projectId",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
                     pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
@@ -108,8 +115,8 @@ const DrugSearchConfig = () => {
                 },
               },
               {
-                key:"DRUG_IDS",
-                label: "DRUG_IDS",
+                key:"BENEFICIARY_ID",
+                label: "BENEFICIARY_ID",
                 type: "text",
                 isMandatory: false,
                 disable: false,
@@ -117,14 +124,30 @@ const DrugSearchConfig = () => {
                   convertStringToRegEx: ["populators.validation.pattern"],
                 },
                 populators: {
-                  name: "ids",
+                  name: "beneficiaryId",
                   error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
                   validation: {
                     pattern: '^[^\\$"<>?\\\\~`!@$%^()+={}\\[\\]*:;“”‘’]{1,50}$',
                     
+                  },
+                },
+              },
+              {
+                key:"REGISTRATION_DATE",
+                label: "REGISTRATION_DATE",
+                type: "date",
+                isMandatory: false,
+                disable: false,
+               
+                populators: {
+                  name: "dateOfRegistration",
+                  error: "COMMON_PATTERN_ERR_MSG_MUSTER_ID",
+                  validation: {
+                    required:true
                   },
                 },
               }, 
+               
             
              
             ],
@@ -139,29 +162,33 @@ const DrugSearchConfig = () => {
           uiConfig: {
             columns: [
               {
-                label: "DRUG_NAME",
-                jsonPath: "name",
+                label: "ID",
+                jsonPath: "id",
                 
               },
               {
-                label: "DRUG_MANUFACTURER",
-                jsonPath: "manufacturer",
+                label: "CLIENT_REFERENCE_ID",
+                jsonPath: "clientReferenceId",
               
               },
               {
-                label: "DRUG_TYPE",
-                jsonPath: "type",
+                label: "PROJECT_ID",
+                jsonPath: "projectId",
              
               },
               {
-                label: "DRUG_IDS",
-                jsonPath: "id",
+                label: "BENEFICIARY_ID",
+                jsonPath: "beneficiaryId",
+              },
+              {
+                label: "REGISTRATION_DATE",
+                jsonPath: "dateOfRegistration",
               },
              
             ],
             enableGlobalSearch: false,
             enableColumnSort: true,
-            resultsJsonPath: "Product",
+            resultsJsonPath: "ProjectBeneficiary",
           },
           children: {},
           show: true,
@@ -171,4 +198,4 @@ const DrugSearchConfig = () => {
     };
 }
 
-export default DrugSearchConfig;
+export default SearchBeneficiaryConfig;
