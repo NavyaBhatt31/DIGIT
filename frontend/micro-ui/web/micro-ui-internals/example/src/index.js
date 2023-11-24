@@ -22,7 +22,7 @@ import "@egovernments/digit-ui-custom-css/example/index.css";
 import { pgrCustomizations } from "./pgr";
 import { UICustomizations } from "./UICustomizations";
 
-var Digit = window.Digit || {};
+// var Digit = window.Digit || {};
 
 const enabledModules = [
   "HRMS",

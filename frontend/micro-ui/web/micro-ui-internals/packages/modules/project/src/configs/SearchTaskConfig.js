@@ -146,7 +146,7 @@ const SearchTaskConfig = () => {
               {
                 key:"START_DATE",
                 label: "START_DATE",
-                type: "text",
+                type: "date",
                 isMandatory: false,
                 disable: false,
                 populators: {

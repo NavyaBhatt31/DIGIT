@@ -1,0 +1,8 @@
++ i18next@23.7.6
+updated 1 package and audited 891 packages in 5.191s
+
+170 packages are looking for funding
+  run `npm fund` for details
+
+found 18 vulnerabilities (15 moderate, 3 high)
+  run `npm audit fix` to fix them, or `npm audit` for details

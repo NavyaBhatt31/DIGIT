@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
@@ -241,7 +242,7 @@ export const UICustomizations = {
       data.body.inbox.moduleSearchCriteria.tenantId = Digit.ULBService.getCurrentTenantId();
 
       //setting limit and offset becoz somehow they are not getting set in muster inbox 
-      data.body.inbox .limit = data.state.tableForm.limit
+      data.body.inbox.limit = data.state.tableForm.limit
       data.body.inbox.offset = data.state.tableForm.offset
       delete data.state
       return data;
@@ -300,7 +301,8 @@ export const UICustomizations = {
       Object.keys(row).map((key) => {
         if (key === "ATM_MUSTER_ROLL_ID")
           link = `/${window.contextPath}/employee/attendencemgmt/view-attendance?tenantId=${tenantId}&musterRollNumber=${row[key]}`;
-      });
+        return key;
+        });
       return link;
     },
     populateReqCriteria: () => {
@@ -418,7 +420,8 @@ export const UICustomizations = {
       Object.keys(row).map((key) => {
         if (key === "MASTERS_WAGESEEKER_ID")
           link = `/${window.contextPath}/employee/masters/view-wageseeker?tenantId=${tenantId}&wageseekerId=${row[key]}`;
-      });
+        return key;
+        });
       return link;
     },
     additionalValidations: (type, data, keys) => {
@@ -551,61 +554,65 @@ ProjectInboxConfig: {
 SearchTaskConfig:  
 {
   preProcess: (data) => {
-    const plannedStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.plannedStartDate, "daystart");
+    const plannedStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.plannedStartDate);
     const plannedEndDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.plannedEndDate);
-    const actualStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.actualStartDate, "dayactualstart");
+    const actualStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.actualStartDate, );
     const actualEndDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.actualEndDate);
     // const projectType = data.body.Projects[0]?.projectType?.code;
     // const ward = data.body.Projects[0]?.ward?.[0]?.code;
-    data.params = { ...data.params, tenantId: "mz", includeDeleted: true, plannedStartDate, plannedEndDate, actualStartDate, actualEndDate };
-    let id = data.body.Task[0]?.id?.trim();
-    let clientReferenceId = data.body.Task[0]?.clientReferenceId?.trim()
-    let projectId = data.body.Task[0]?.projectId?.trim();
-    let projectBeneficiaryId = data.body.Task[0]?.projectBeneficiaryId?.trim();
-    let localityCode = data.body.Task[0]?.localityCode?.trim();
-    let status = data.body.Task[0]?.status?.trim();
-    debugger;
+    data.params = { ...data.params, plannedStartDate, plannedEndDate, actualStartDate, actualEndDate };
 
-    delete data.body.Task[0]?.plannedStartDate;
-    delete data.body.Task[0]?.plannedEndDate;
-    delete data.body.Task[0]?.actualStartDate;
-    delete data.body.Task[0]?.actualEndDate;
+
+    // let id = data.body.Task[0]?.id?.trim();
+    // let clientReferenceId = data.body.Task[0]?.clientReferenceId?.trim()
+    // let projectId = data.body.Task[0]?.projectId?.trim();
+    // let projectBeneficiaryId = data.body.Task[0]?.projectBeneficiaryId?.trim();
+    // let localityCode = data.body.Task[0]?.localityCode?.trim();
+    // let status = data.body.Task[0]?.status?.trim();
+    // debugger;
+
+    // delete data.body.Task[0]?.plannedStartDate;
+    // delete data.body.Task[0]?.plannedEndDate;
+    // delete data.body.Task[0]?.actualStartDate;
+    // delete data.body.Task[0]?.actualEndDate;
    
-    data.body.Task[0] = { ...data.body.Task[0],id, clientReferenceId, projectId, projectBeneficiaryId, localityCode, status };
+    // data.body.Task[0] = { ...data.body.Task[0],id, clientReferenceId, projectId, projectBeneficiaryId, localityCode, status };
+    // debugger;
     return data;
   },
-  postProcess: (responseArray) => {
-    const listOfUuids = responseArray?.map((row) => row.auditDetails.createdBy);
-    const uniqueUuids = listOfUuids?.filter(function (item, i, ar) {
-      return ar.indexOf(item) === i;
-    });
-    const tenantId = "mz";
-    const reqCriteria = {
-      url: "/user/_search",
-      params: {},
-      body: { tenantId, pageSize: 100, uuid: [...uniqueUuids] },
-      config: {
-        enabled: responseArray?.length > 0 ? true : false,
-        select: (data) => {
-          const usersResponse = data?.user;
-          responseArray?.forEach((row) => {
-            const uuid = row?.auditDetails?.createdBy;
-            const user = usersResponse?.filter((user) => user.uuid === uuid);
-            row.createdBy = user?.[0].id;
-          });
-          return responseArray;
-        },
-      },
-    };
-    const { isLoading: isPostProcessLoading, data: combinedResponse, isFetching: isPostProcessFetching } = Digit.Hooks.useCustomAPIHook(
-      reqCriteria
-    );
-    return {
-      isPostProcessFetching,
-      isPostProcessLoading,
-      combinedResponse,
-    };
-  },
+  // postProcess: (responseArray) => {
+  //   const listOfUuids = responseArray?.map((row) => row.auditDetails.createdBy);
+  //   const uniqueUuids = listOfUuids?.filter(function (item, i, ar) {
+  //     return ar.indexOf(item) === i;
+  //   });
+  //   const tenantId = "mz";
+  //   const reqCriteria = {
+  //     url: "/user/_search",
+  //     params: {},
+  //     body: { tenantId, pageSize: 100, uuid: [...uniqueUuids] },
+  //     config: {
+  //       enabled: responseArray?.length > 0 ? true : false,
+  //       select: (data) => {
+  //         const usersResponse = data?.user;
+  //         responseArray?.forEach((row) => {
+  //           const uuid = row?.auditDetails?.createdBy;
+  //           const user = usersResponse?.filter((user) => user.uuid === uuid);
+  //           row.createdBy = user?.[0].id;
+  //           // debugger;
+  //         });
+  //         return responseArray;
+  //       },
+  //     },
+  //   };
+  //   const { isLoading: isPostProcessLoading, data: combinedResponse, isFetching: isPostProcessFetching } = Digit.Hooks.useCustomAPIHook(
+  //     reqCriteria
+  //   );
+  //   return {
+  //     isPostProcessFetching,
+  //     isPostProcessLoading,
+  //     combinedResponse,
+  //   };
+  // },
   customValidationCheck: (data) => {
     const { plannedStartDate, plannedEndDate} = data;
     if ((plannedStartDate === "" && plannedEndDate !== "") || (plannedStartDate !== "" && plannedEndDate === ""))
