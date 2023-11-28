@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import _ from "lodash";
+// eslint-disable-next-line no-unused-vars
+// const index = /* ... */
 
 //create functions here based on module name set in mdms(eg->SearchProjectConfig)
 //how to call these -> Digit?.Customizations?.[masterName]?.[moduleName]
@@ -23,7 +25,7 @@ const inboxModuleNameMap = {
 export const UICustomizations = {
   businessServiceMap,
   updatePayload: (applicationDetails, data, action, businessService) => {
-    
+
     if (businessService === businessServiceMap.estimate) {
       const workflow = {
         comment: data.comments,
@@ -39,6 +41,7 @@ export const UICustomizations = {
         assignees: data?.assignees?.uuid ? [data?.assignees?.uuid] : null,
         action: action.action,
       };
+
       //filtering out the data
       Object.keys(workflow).forEach((key, index) => {
         if (!workflow[key] || workflow[key]?.length === 0) delete workflow[key];
@@ -551,68 +554,82 @@ ProjectInboxConfig: {
   }
 },
 
-SearchTaskConfig:  
-{
-  preProcess: (data) => {
-    const plannedStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.plannedStartDate);
-    const plannedEndDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.plannedEndDate);
-    const actualStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.actualStartDate, );
-    const actualEndDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.actualEndDate);
-    // const projectType = data.body.Projects[0]?.projectType?.code;
-    // const ward = data.body.Projects[0]?.ward?.[0]?.code;
-    data.params = { ...data.params, plannedStartDate, plannedEndDate, actualStartDate, actualEndDate };
+// SearchTaskConfig:  
+// {
+//   preProcess: (data) => {
+//     const plannedStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.plannedStartDate);
+//     const plannedEndDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.plannedEndDate);
+//     const actualStartDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.actualStartDate, );
+//     const actualEndDate = Digit.Utils.pt.convertDateToEpoch(data.body.Task[0]?.actualEndDate);
+//     // const projectType = data.body.Projects[0]?.projectType?.code;
+//     // const ward = data.body.Projects[0]?.ward?.[0]?.code;
+//     data.params = { ...data.params, plannedStartDate, plannedEndDate, actualStartDate, actualEndDate };
 
 
-    // let id = data.body.Task[0]?.id?.trim();
-    // let clientReferenceId = data.body.Task[0]?.clientReferenceId?.trim()
-    // let projectId = data.body.Task[0]?.projectId?.trim();
-    // let projectBeneficiaryId = data.body.Task[0]?.projectBeneficiaryId?.trim();
-    // let localityCode = data.body.Task[0]?.localityCode?.trim();
-    // let status = data.body.Task[0]?.status?.trim();
-    // debugger;
+//     // let id = data.body.Task[0]?.id?.trim();
+//     // let clientReferenceId = data.body.Task[0]?.clientReferenceId?.trim()
+//     // let projectId = data.body.Task[0]?.projectId?.trim();
+//     // let projectBeneficiaryId = data.body.Task[0]?.projectBeneficiaryId?.trim();
+//     // let localityCode = data.body.Task[0]?.localityCode?.trim();
+//     // let status = data.body.Task[0]?.status?.trim();
+//     // debugger;
 
-    // delete data.body.Task[0]?.plannedStartDate;
-    // delete data.body.Task[0]?.plannedEndDate;
-    // delete data.body.Task[0]?.actualStartDate;
-    // delete data.body.Task[0]?.actualEndDate;
+//     // delete data.body.Task[0]?.plannedStartDate;
+//     // delete data.body.Task[0]?.plannedEndDate;
+//     // delete data.body.Task[0]?.actualStartDate;
+//     // delete data.body.Task[0]?.actualEndDate;
    
-    // data.body.Task[0] = { ...data.body.Task[0],id, clientReferenceId, projectId, projectBeneficiaryId, localityCode, status };
-    // debugger;
-    return data;
-  },
-  // postProcess: (responseArray) => {
-  //   const listOfUuids = responseArray?.map((row) => row.auditDetails.createdBy);
-  //   const uniqueUuids = listOfUuids?.filter(function (item, i, ar) {
-  //     return ar.indexOf(item) === i;
-  //   });
-  //   const tenantId = "mz";
-  //   const reqCriteria = {
-  //     url: "/user/_search",
-  //     params: {},
-  //     body: { tenantId, pageSize: 100, uuid: [...uniqueUuids] },
-  //     config: {
-  //       enabled: responseArray?.length > 0 ? true : false,
-  //       select: (data) => {
-  //         const usersResponse = data?.user;
-  //         responseArray?.forEach((row) => {
-  //           const uuid = row?.auditDetails?.createdBy;
-  //           const user = usersResponse?.filter((user) => user.uuid === uuid);
-  //           row.createdBy = user?.[0].id;
-  //           // debugger;
-  //         });
-  //         return responseArray;
-  //       },
-  //     },
-  //   };
-  //   const { isLoading: isPostProcessLoading, data: combinedResponse, isFetching: isPostProcessFetching } = Digit.Hooks.useCustomAPIHook(
-  //     reqCriteria
-  //   );
-  //   return {
-  //     isPostProcessFetching,
-  //     isPostProcessLoading,
-  //     combinedResponse,
-  //   };
-  // },
+//     // data.body.Task[0] = { ...data.body.Task[0],id, clientReferenceId, projectId, projectBeneficiaryId, localityCode, status };
+//     // debugger;
+//     return data;
+//   },
+//   // postProcess: (responseArray) => {
+//   //   const listOfUuids = responseArray?.map((row) => row.auditDetails.createdBy);
+//   //   const uniqueUuids = listOfUuids?.filter(function (item, i, ar) {
+//   //     return ar.indexOf(item) === i;
+//   //   });
+//   //   const tenantId = "mz";
+//   //   const reqCriteria = {
+//   //     url: "/user/_search",
+//   //     params: {},
+//   //     body: { tenantId, pageSize: 100, uuid: [...uniqueUuids] },
+//   //     config: {
+//   //       enabled: responseArray?.length > 0 ? true : false,
+//   //       select: (data) => {
+//   //         const usersResponse = data?.user;
+//   //         responseArray?.forEach((row) => {
+//   //           const uuid = row?.auditDetails?.createdBy;
+//   //           const user = usersResponse?.filter((user) => user.uuid === uuid);
+//   //           row.createdBy = user?.[0].id;
+//   //           // debugger;
+//   //         });
+//   //         return responseArray;
+//   //       },
+//   //     },
+//   //   };
+//   //   const { isLoading: isPostProcessLoading, data: combinedResponse, isFetching: isPostProcessFetching } = Digit.Hooks.useCustomAPIHook(
+//   //     reqCriteria
+//   //   );
+//   //   return {
+//   //     isPostProcessFetching,
+//   //     isPostProcessLoading,
+//   //     combinedResponse,
+//   //   };
+//   // },
+  // customValidationCheck: (data) => {
+  //   const { plannedStartDate, plannedEndDate} = data;
+  //   if ((plannedStartDate === "" && plannedEndDate !== "") || (plannedStartDate !== "" && plannedEndDate === ""))
+  //   return { warning: true, label: "ES_COMMON_ENTER_DATE_RANGE_PLANNED" };
+  
+  //   const { actualStartDate, actualEndDate } = data;
+  //  if ((actualStartDate === "" && actualEndDate !== "") || (actualStartDate !== "" && actualEndDate === ""))
+  //   return { warning: true, label: "ES_COMMON_ENTER_DATE_RANGE_ACTUAL" };
+
+//     return false;
+//   },
+// },
+
+SearchTaskConfig:  {
   customValidationCheck: (data) => {
     const { plannedStartDate, plannedEndDate} = data;
     if ((plannedStartDate === "" && plannedEndDate !== "") || (plannedStartDate !== "" && plannedEndDate === ""))
@@ -624,9 +641,54 @@ SearchTaskConfig:
 
     return false;
   },
-  
+  preProcess: (data) => {
+    data.params = { ...data.params, tenantId: Digit.ULBService.getCurrentTenantId() };
+
+    let requestBody = { ...data.body.Task };
+    const pathConfig = {    };
+
+    const dateConfig = {
+                    plannedStartDate: "daystart",
+                    plannedEndDate: "dayend",
+                    actualStartDate: "dayactualstart",
+                    actualEndDate: "dayactualend",
+    };
+    const selectConfig = {
+     
+    };
+    const textConfig = ["id", "clientReferenceId", "projectId", "projectBeneficiaryId", "localityCode", "status"]
+    let Task = Object.keys(requestBody)
+      .map((key) => {
+        if (selectConfig[key]) {
+          requestBody[key] = _.get(requestBody, selectConfig[key], null);
+        } else if (typeof requestBody[key] == "object") {
+          requestBody[key] = requestBody[key]?.code;
+        } else if (textConfig?.includes(key)) {
+          requestBody[key] = requestBody[key]?.trim()
+        }
+        return key;
+      })
+      .filter((key) => requestBody[key])
+      // .reduce((acc, curr) => {
+      //   if (pathConfig[curr]) {
+      //     _.set(acc, pathConfig[curr], requestBody[curr]);
+      //   } else if (dateConfig[curr] && dateConfig[curr]?.includes("day")) {
+      //     _.set(acc, curr, Digit.Utils.date.convertDateToEpoch(requestBody[curr], dateConfig[curr]));
+      //   } else {
+      //     _.set(acc, curr, requestBody[curr]);
+      //   }
+      //   return acc;
+      // }, {});
+
+    data.body.Task = { ...Task };
+    return data;
+  },
  
+  
+  
+  
 },
+
 
 }
 
