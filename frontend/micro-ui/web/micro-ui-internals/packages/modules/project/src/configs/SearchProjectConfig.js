@@ -124,7 +124,7 @@ const searchConfig = () => {
           ],
           enableGlobalSearch: false,
           enableColumnSort: true,
-          resultsJsonPath: "Projects",
+          resultsJsonPath: "Project",
         },
         children: {},
         show: true,
