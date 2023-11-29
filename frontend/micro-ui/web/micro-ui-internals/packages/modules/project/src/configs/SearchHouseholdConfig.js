@@ -1,4 +1,7 @@
+import React, { useEffect, useState } from "react";
 const SearchHouseholdConfig = () => {
+  const [inputValueForId, setInputValueForId] = useState("");
+  const [inputValueForClientReferenceId, setInputValueForClientReferenceId] = useState("");
   return {
     label: "SEARCH_HOUSEHOLD",
     type: "search",
@@ -14,8 +17,8 @@ const SearchHouseholdConfig = () => {
       requestBody: {
         tenantId: "mz",
         Household: {
-          id: "",
-          clientReferenceId: "",
+          id: [inputValueForId],
+          clientReferenceId: [inputValueForClientReferenceId],
           boundaryCode: "",
           // tenantId:"mz"
         },
@@ -41,8 +44,8 @@ const SearchHouseholdConfig = () => {
           minReqFields: 0,
           formClassName: "custom-both-clear-search",
           defaultValues: {
-            id: "",
-            clientReferenceId: "",
+            id: [""],
+            clientReferenceId: [""],
             boundaryCode: "",
           },
           fields: [
@@ -52,6 +55,7 @@ const SearchHouseholdConfig = () => {
               type: "text",
               isMandatory: false,
               disable: false,
+              onChange: (e) => setInputValueForId(e.target.value),
               preProcess: {
                 convertStringToRegEx: ["populators.validation.pattern"],
               },
@@ -69,6 +73,7 @@ const SearchHouseholdConfig = () => {
               type: "text",
               isMandatory: false,
               disable: false,
+              onChange: (e) => setInputValueForClientReferenceId(e.target.value),
               preProcess: {
                 convertStringToRegEx: ["populators.validation.pattern"],
               },
@@ -134,3 +139,4 @@ const SearchHouseholdConfig = () => {
 };
 
 export default SearchHouseholdConfig;
+ 

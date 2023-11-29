@@ -86,7 +86,7 @@ module.exports = function (app) {
     "/project/task/v1/_search",
     "project/beneficiary/v1/_search",
     "/project/staff/v1/_search",
-    "/wms/project/_search"
+    "/project/v1/_search"
 
   ].forEach((location) => app.use(location, createProxy));
   ["/pb-egov-assets"].forEach((location) => app.use(location, assetsProxy));
